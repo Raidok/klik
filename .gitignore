@@ -1,7 +1,6 @@
 gwt-unitCache
 *.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
+war/WEB-INF/deploy/
+war/WEB-INF/classes/
+war/klik/
+.settings/

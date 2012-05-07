@@ -13,22 +13,15 @@
 				<b:Close ui:field="close"></b:Close>
 				<b:Heading size="3">Setup</b:Heading>
 			</g:HTMLPanel>
-			<b:Form type="HORIZONTAL">
-				<b:Fieldset>
-				 	<b:Legend>Legend</b:Legend>
-					<b:ControlGroup>
-						<b:ControlLabel>COM-port</b:ControlLabel>
+			<g:HTMLPanel styleName="modal-body">
+				<b:Form type="HORIZONTAL">
+					<b:Fieldset>
+						<b:ControlLabel>Select COM-port</b:ControlLabel>
 						<b:Controls>
 							<g:ListBox ui:field="comPortListBox"></g:ListBox>
 						</b:Controls>
-					</b:ControlGroup>
-				</b:Fieldset>
-			</b:Form>
-			<g:HTMLPanel styleName="modal-body">
-				<g:Label>Hey!</g:Label>
-				<g:Label>Hey!</g:Label>
-				<g:Label>Hey!</g:Label>
-				<g:Label>Hey!</g:Label>
+					</b:Fieldset>
+				</b:Form>
 			</g:HTMLPanel>
 			<b:ModalFooter>
 				<b:Button ui:field="save" icon="OK" iconColor="WHITE" type="PRIMARY">Save</b:Button>
