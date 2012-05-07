@@ -1,0 +1,38 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+	ui:generateLocales='default'>
+
+	<g:PopupPanel>
+		<g:HTMLPanel styleName="modal">
+			<g:HTMLPanel styleName="modal-header">
+				<b:Close ui:field="close"></b:Close>
+				<b:Heading size="3">Setup</b:Heading>
+			</g:HTMLPanel>
+			<b:Form type="HORIZONTAL">
+				<b:Fieldset>
+				 	<b:Legend>Legend</b:Legend>
+					<b:ControlGroup>
+						<b:ControlLabel>COM-port</b:ControlLabel>
+						<b:Controls>
+							<g:ListBox ui:field="comPortListBox"></g:ListBox>
+						</b:Controls>
+					</b:ControlGroup>
+				</b:Fieldset>
+			</b:Form>
+			<g:HTMLPanel styleName="modal-body">
+				<g:Label>Hey!</g:Label>
+				<g:Label>Hey!</g:Label>
+				<g:Label>Hey!</g:Label>
+				<g:Label>Hey!</g:Label>
+			</g:HTMLPanel>
+			<b:ModalFooter>
+				<b:Button ui:field="save" icon="OK" iconColor="WHITE" type="PRIMARY">Save</b:Button>
+			</b:ModalFooter>
+		</g:HTMLPanel>
+	</g:PopupPanel>
+</ui:UiBinder>

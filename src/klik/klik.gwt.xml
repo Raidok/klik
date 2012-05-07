@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='klik'>
+  <!-- Inherit the core Web Toolkit stuff. -->
+  <inherits name='com.google.gwt.user.User'/>
+  <inherits name="com.google.gwt.inject.Inject" />
+  <inherits name="com.google.gwt.uibinder.UiBinder" />
+  <inherits name="com.google.gwt.i18n.I18N"/>
+  
+  <!-- defined locales -->
+  <extend-property name="locale" values="et"/>
+  <extend-property name="locale" values="en"/>
+  
+  <!-- fallback locale -->
+  <set-property-fallback name="locale" value="en"/>
+
+  <!-- Inherit a lightweight GWT style sheet. -->
+  <inherits name='com.google.gwt.user.theme.standard.StandardResources'/>
+
+  <!-- Other module inherits -->
+  <inherits name='com.gwtplatform.mvp.Mvp' />
+  <inherits name='com.gwtplatform.dispatch.Dispatch'/>
+  <inherits name="com.github.gwtbootstrap.Bootstrap"/>
+
+  <!-- Add gwt-log support, default level `OFF` - check for 
+      extended property 'log_level' to see if this is overridden -->
+  <inherits name="com.allen_sauer.gwt.log.gwt-log-OFF" />
+
+  <!-- Also compile Logger at `INFO` level -->
+  <extend-property name="log_level" values="INFO" />
+  <set-property name="log_level" value="INFO" />
+
+  <!-- Turn off the floating logger - output will be shown in the mode console -->
+  <set-property name="log_DivLogger" value="DISABLED" />
+
+  <!-- Specify the app entry point class. -->
+  <entry-point class='klik.client.MainEntry'/>
+
+  <!-- Set Ginjector location -->
+  <define-configuration-property name="gin.ginjector" is-multi-valued="false" />
+  <set-configuration-property name="gin.ginjector"
+       value="klik.client.gin.MyGinjector" />
+
+  <!-- Specify the paths for translatable code -->
+  <source path='client'/>
+  <source path='shared'/>
+
+</module>
