@@ -4,7 +4,6 @@ import klik.shared.event.AlertEvent;
 import klik.shared.event.AlertEventHandler;
 
 import com.github.gwtbootstrap.client.ui.constants.AlertType;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -52,7 +51,6 @@ public class LayoutPresenter extends Presenter<LayoutPresenter.MyView, LayoutPre
 	@Override
 	protected void onBind() {
 		super.onBind();
-		GWT.log("hai");
 
 		// displays alerts posted on the EventBus
 		addRegisteredHandler(AlertEvent.TYPE, new AlertEventHandler() {

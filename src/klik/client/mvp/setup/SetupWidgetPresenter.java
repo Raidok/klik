@@ -8,6 +8,7 @@ import klik.shared.event.AlertEvent;
 import klik.shared.rpc.RetrieveSetupAction;
 import klik.shared.rpc.RetrieveSetupResult;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.github.gwtbootstrap.client.ui.constants.AlertType;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -35,11 +36,13 @@ implements SetupWidgetUiHandlers {
 	@Override
 	protected void onBind() {
 		super.onBind();
+		Log.debug("BIND");
 	}
 
 	@Override
-	protected void onReset() {
-		super.onReset();
+	protected void onReveal() {
+		super.onReveal();
+		Log.debug("REVEAL");
 		dispatcher.execute(new RetrieveSetupAction(), new MyCallback<RetrieveSetupResult>(this) {
 			@Override
 			public void onSuccess(RetrieveSetupResult result) {
@@ -50,11 +53,13 @@ implements SetupWidgetUiHandlers {
 
 	@Override
 	public void onClose() {
+		Log.debug("SAVE");
 		getView().hide();
 	}
 
 	@Override
 	public void onSave() {
+		Log.debug("CLOSE");
 		getEventBus().fireEvent(new AlertEvent(AlertType.SUCCESS, "Saved!"));
 		getView().hide();
 	}

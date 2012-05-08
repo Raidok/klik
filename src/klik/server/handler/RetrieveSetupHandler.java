@@ -36,20 +36,25 @@ public class RetrieveSetupHandler implements ActionHandler<RetrieveSetupAction, 
 	@Override
 	public RetrieveSetupResult execute(final RetrieveSetupAction action,
 			final ExecutionContext context) throws ActionException {
-		logger.debug("RetrieveSetupHandler");
+		logger.debug(getClass().getSimpleName());
 		try {
 			@SuppressWarnings("rawtypes")
 			Enumeration en = CommPortIdentifier.getPortIdentifiers();
 			LinkedHashMap<String, String> ports = new LinkedHashMap<String, String>();
+			ports.put("Choose...", "");
+			System.out.println("returns:"+getClass().getEnclosingMethod().getReturnType());
 			for (; en.hasMoreElements();) {
-				String port = en.nextElement().toString();
-				logger.debug(" port:"+port);
-				ports.put(port, port);
+				CommPortIdentifier portId = ((CommPortIdentifier) en.nextElement());
+				if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+					String name = portId.getName();
+					logger.debug(" port:"+name+" owner:"+portId.getCurrentOwner());
+					ports.put(name, name);
+				}
 			}
 			return new RetrieveSetupResult(ports);
 		}
 		catch (Exception cause) {
-			logger.error("Unable to send comPortMap", cause);
+			logger.error("Unable to send response", cause);
 			throw new ActionException(cause);
 		}
 	}

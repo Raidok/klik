@@ -1,6 +1,7 @@
 package klik.client.mvp.setup;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.github.gwtbootstrap.client.ui.Button;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -52,6 +53,8 @@ implements SetupWidgetPresenter.MyView {
 
 	@Override
 	public void fillFields(LinkedHashMap<String, String> comPorts) {
-		comPorts.putAll(comPorts);
+		for (Map.Entry<String, String> e : comPorts.entrySet()) {
+			comPortListBox.addItem(e.getKey(), e.getValue());
+		}
 	}
 }
