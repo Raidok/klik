@@ -1,5 +1,7 @@
 package klik.client.mvp.setup;
 
+import java.util.LinkedHashMap;
+
 import com.github.gwtbootstrap.client.ui.Button;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -46,5 +48,10 @@ implements SetupWidgetPresenter.MyView {
 		if (getUiHandlers() != null) {
 			getUiHandlers().onSave();
 		}
+	}
+
+	@Override
+	public void fillFields(LinkedHashMap<String, String> comPorts) {
+		comPorts.putAll(comPorts);
 	}
 }
