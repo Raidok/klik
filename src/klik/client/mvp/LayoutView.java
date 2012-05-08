@@ -3,9 +3,12 @@ package klik.client.mvp;
 import klik.client.resources.Resources;
 
 import com.github.gwtbootstrap.client.ui.Alert;
+import com.github.gwtbootstrap.client.ui.NavText;
 import com.github.gwtbootstrap.client.ui.constants.AlertType;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -21,6 +24,7 @@ public class LayoutView extends ViewImpl implements LayoutPresenter.MyView {
 	@UiField(provided = true) final Resources resources;
 	@UiField HTMLPanel alertPanel;
 	@UiField HTMLPanel contentPanel;
+	@UiField NavText loading;
 
 	@Inject
 	public LayoutView(final Binder binder, final Resources resources) {
@@ -43,6 +47,22 @@ public class LayoutView extends ViewImpl implements LayoutPresenter.MyView {
 			}
 		} else {
 			super.setInSlot(slot, content);
+		}
+	}
+
+	@Override
+	public void showLoading(boolean visible) {
+		if (visible) {
+			GWT.log("show loading");
+			loading.setVisible(visible);
+		} else {
+			GWT.log("hide loading");
+			new Timer() {
+				@Override
+				public void run() {
+					loading.setVisible(false);
+				}
+			}.schedule(50); // run it with a little delay
 		}
 	}
 

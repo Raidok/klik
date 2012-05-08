@@ -21,6 +21,7 @@
 				<b:NavLink href="#{nameTokens.getAdmin}" styleName="">Admin</b:NavLink>
 				<b:NavLink href="#{nameTokens.getError}" styleName="">Error</b:NavLink>
 			</b:Nav>
+			<b:Nav alignment="RIGHT"><b:NavText ui:field="loading" visible="false">Loading...</b:NavText></b:Nav>
 		</b:Navbar>
 
 		<g:HTMLPanel styleName="container">
