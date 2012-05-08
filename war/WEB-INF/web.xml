@@ -16,6 +16,12 @@
     <url-pattern>/klik/gwt-log</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>a</servlet-name>
+    <servlet-class>klik.server.PropertiesManager</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
   <filter>
     <filter-name>guiceFilter</filter-name>
     <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
