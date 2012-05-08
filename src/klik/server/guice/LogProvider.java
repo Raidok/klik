@@ -11,7 +11,7 @@ public class LogProvider implements Provider<Log>{
 
 	@Override
 	public Log get() {
-		return new Log4JLogger("GreetingLogger");
+		return new Log4JLogger("Logger");
 	}
 
 }
