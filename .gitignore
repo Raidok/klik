@@ -1,6 +1,8 @@
 gwt-unitCache
 *.class
-war/WEB-INF/deploy/
-war/WEB-INF/classes/
-war/klik/
-.settings/
+war/WEB-INF/deploy
+war/WEB-INF/classes
+war/klik
+war/logging*
+.settings
+.apt_generated
