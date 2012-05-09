@@ -4,21 +4,31 @@ package klik.server;
 public class Process extends Thread {
 
 	private static Process INSTANCE;
+	private boolean isRunning;
 
 	public Process() {
 		super("BackgroundProcess");
 		System.out.println("LOADER CONSTRUCT");
 		String port = PropertiesManager.getProperty("cm11.port");
 		System.out.println("got port : ["+port+"]");
+		isRunning = true;
 	}
 
 	@Override
 	public void run() {
-		for (int j = 0; j < 5; j++) {
-			System.out.println("run");
-			for(int i = 0; i < 1000000; i++);
+		while(isRunning) {
+			synchronized (this) {
+				System.out.println("run");
+				for(int i = 0; i < Integer.MAX_VALUE; i++); // make it to do some work, temporarily
+				try {
+					wait(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
-		System.out.println("what's next?");
+		System.out.println("stops");
 	}
 
 	public static void startNewThread() {

@@ -40,7 +40,7 @@ public class SaveSetupHandler implements ActionHandler<SaveSetupAction, SaveSetu
 			try {
 				Process.restartThread();
 			} catch (Exception e) {
-				throw new ActionException("Background process restart failed!");
+				throw new ActionException("Background process restart failed!", e);
 			}
 			return new SaveSetupResult();
 		}
