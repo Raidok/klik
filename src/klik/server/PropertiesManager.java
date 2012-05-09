@@ -13,6 +13,11 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+/**
+ * This class handles the server properties so they won't
+ * disappear when restarting the app.
+ * @author raido
+ */
 public class PropertiesManager implements Servlet {
 
 	private static String FILE_NAME = "server.properties";
@@ -21,13 +26,10 @@ public class PropertiesManager implements Servlet {
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public ServletConfig getServletConfig() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -45,10 +47,16 @@ public class PropertiesManager implements Servlet {
 	@Override
 	public void service(ServletRequest arg0, ServletResponse arg1)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
+		// do nothing
 	}
-	public void setProperty(String key, String value) {
+
+	public static String getProperty(String key) {
+		String value = properties.getProperty(key);
+		System.out.println("requested key:"+key+" value:"+value);
+		return value;
+	}
+
+	public static void setProperty(String key, String value) {
 		properties.setProperty(key, value);
 		storeProperties();
 	}
@@ -65,7 +73,7 @@ public class PropertiesManager implements Servlet {
 		System.out.println("Properties loaded!");
 	}
 
-	private void storeProperties() {
+	private static void storeProperties() {
 		try {
 			properties.store(new FileOutputStream(FILE_NAME), null);
 		} catch (FileNotFoundException e) {
@@ -77,7 +85,7 @@ public class PropertiesManager implements Servlet {
 		System.out.println("Properties safely stored!");
 	}
 
-	private void createFile() {
+	private static void createFile() {
 		System.out.println("Creating server.properties file...");
 		try {
 			new FileWriter(FILE_NAME);
