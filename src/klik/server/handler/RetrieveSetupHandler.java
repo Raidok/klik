@@ -42,7 +42,6 @@ public class RetrieveSetupHandler implements ActionHandler<RetrieveSetupAction, 
 			Enumeration en = CommPortIdentifier.getPortIdentifiers();
 			LinkedHashMap<String, String> ports = new LinkedHashMap<String, String>();
 			ports.put("Choose...", "");
-			System.out.println("returns:"+getClass().getEnclosingMethod().getReturnType());
 			for (; en.hasMoreElements();) {
 				CommPortIdentifier portId = ((CommPortIdentifier) en.nextElement());
 				if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
