@@ -4,11 +4,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.github.gwtbootstrap.client.ui.Button;
+import com.github.gwtbootstrap.client.ui.ControlGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -24,6 +26,8 @@ implements SetupWidgetPresenter.MyView {
 	private final Widget widget;
 	@UiField Anchor close;
 	@UiField Button save;
+	@UiField ControlGroup activeGroup;
+	@UiField Label activePortLabel;
 	@UiField ListBox comPortListBox;
 
 	@Inject
@@ -52,7 +56,14 @@ implements SetupWidgetPresenter.MyView {
 	}
 
 	@Override
-	public void fillFields(LinkedHashMap<String, String> comPorts) {
+	public void fillFields(LinkedHashMap<String, String> comPorts, String activePort) {
+		comPortListBox.clear();
+		if (activePort != null) {
+			activePortLabel.setText(activePort);
+			activeGroup.setVisible(true);
+		} else {
+			activeGroup.setVisible(false);
+		}
 		for (Map.Entry<String, String> e : comPorts.entrySet()) {
 			comPortListBox.addItem(e.getKey(), e.getValue());
 		}

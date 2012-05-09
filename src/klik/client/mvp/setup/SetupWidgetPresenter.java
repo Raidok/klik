@@ -22,7 +22,7 @@ public class SetupWidgetPresenter extends PresenterWidget<SetupWidgetPresenter.M
 implements SetupWidgetUiHandlers {
 
 	public interface MyView extends PopupView, HasUiHandlers<SetupWidgetUiHandlers> {
-		void fillFields(LinkedHashMap<String, String> comPorts);
+		void fillFields(LinkedHashMap<String, String> comPorts, String activePort);
 		String getSelectedPort();
 	}
 
@@ -49,7 +49,7 @@ implements SetupWidgetUiHandlers {
 		dispatcher.execute(new RetrieveSetupAction(), new MyCallback<RetrieveSetupResult>(this) {
 			@Override
 			public void onSuccess(RetrieveSetupResult result) {
-				getView().fillFields(result.getComPorts());
+				getView().fillFields(result.getComPorts(), result.getActivePort());
 			}
 		});
 	}
