@@ -7,61 +7,40 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
 /**
  * This class handles the server properties so they won't
  * disappear when restarting the app.
  * @author raido
  */
-public class PropertiesManager implements Servlet {
+public class PropertiesManager {
 
-	private static String FILE_NAME = "server.properties";
+	private static final String FILE_NAME = "server.properties";
 	private static Properties properties;
 
-
-	@Override
-	public void destroy() {
-	}
-
-	@Override
-	public ServletConfig getServletConfig() {
-		return null;
-	}
-
-	@Override
-	public String getServletInfo() {
-		return "Servlet for loading and storing server properties";
-	}
-
-	@Override
-	public void init(ServletConfig arg0) throws ServletException {
-		properties = new Properties();
-		loadProperties();
-	}
-
-	@Override
-	public void service(ServletRequest arg0, ServletResponse arg1)
-			throws ServletException, IOException {
-		// do nothing
+	private PropertiesManager() {
 	}
 
 	public static String getProperty(String key) {
+		ensureLoaded();
 		String value = properties.getProperty(key);
 		System.out.println("requested key:"+key+" value:"+value);
 		return value;
 	}
 
 	public static void setProperty(String key, String value) {
+		ensureLoaded();
 		properties.setProperty(key, value);
 		storeProperties();
 	}
 
-	private void loadProperties() {
+	private static void ensureLoaded() {
+		if (properties == null) {
+			properties = new Properties();
+			loadProperties();
+		}
+	}
+
+	private static void loadProperties() {
 		try {
 			properties.load(new FileInputStream(FILE_NAME));
 		} catch (FileNotFoundException e) {
