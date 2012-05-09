@@ -1,8 +1,10 @@
 package klik.server.guice;
 
 import klik.server.handler.RetrieveSetupHandler;
+import klik.server.handler.SaveSetupHandler;
 import klik.server.handler.SendGreetingHandler;
 import klik.shared.rpc.RetrieveSetupAction;
+import klik.shared.rpc.SaveSetupAction;
 import klik.shared.rpc.SendGreeting;
 
 import org.apache.commons.logging.Log;
@@ -16,6 +18,7 @@ public class GuiceServerModule extends HandlerModule {
 	protected void configureHandlers() {
 		bindHandler(SendGreeting.class, SendGreetingHandler.class);
 		bindHandler(RetrieveSetupAction.class, RetrieveSetupHandler.class);
+		bindHandler(SaveSetupAction.class, SaveSetupHandler.class);
 		bind(Log.class).toProvider(LogProvider.class).in(Singleton.class);
 	}
 

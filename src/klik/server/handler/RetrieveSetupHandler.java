@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import klik.server.PropertiesManager;
 import klik.shared.rpc.RetrieveSetupAction;
 import klik.shared.rpc.RetrieveSetupResult;
 
@@ -50,7 +51,8 @@ public class RetrieveSetupHandler implements ActionHandler<RetrieveSetupAction, 
 					ports.put(name, name);
 				}
 			}
-			return new RetrieveSetupResult(ports);
+			String activePort = PropertiesManager.getProperty("cm11.port");
+			return new RetrieveSetupResult(ports, activePort);
 		}
 		catch (Exception cause) {
 			logger.error("Unable to send response", cause);

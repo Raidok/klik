@@ -10,5 +10,6 @@ import com.gwtplatform.dispatch.shared.UnsecuredActionImpl;
 public class RetrieveSetup {
 
 	@Out(1) LinkedHashMap<String, String> comPorts;
+	@Out(2) String activePort;
 
 }

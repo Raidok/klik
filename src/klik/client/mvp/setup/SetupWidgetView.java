@@ -57,4 +57,9 @@ implements SetupWidgetPresenter.MyView {
 			comPortListBox.addItem(e.getKey(), e.getValue());
 		}
 	}
+
+	@Override
+	public String getSelectedPort() {
+		return comPortListBox.getValue(comPortListBox.getSelectedIndex());
+	}
 }

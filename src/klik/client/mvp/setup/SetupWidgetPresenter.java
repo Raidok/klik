@@ -7,6 +7,8 @@ import klik.client.dispatch.CachingDispatchAsync;
 import klik.shared.event.AlertEvent;
 import klik.shared.rpc.RetrieveSetupAction;
 import klik.shared.rpc.RetrieveSetupResult;
+import klik.shared.rpc.SaveSetupAction;
+import klik.shared.rpc.SaveSetupResult;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.github.gwtbootstrap.client.ui.constants.AlertType;
@@ -21,6 +23,7 @@ implements SetupWidgetUiHandlers {
 
 	public interface MyView extends PopupView, HasUiHandlers<SetupWidgetUiHandlers> {
 		void fillFields(LinkedHashMap<String, String> comPorts);
+		String getSelectedPort();
 	}
 
 	private final CachingDispatchAsync dispatcher;
@@ -60,7 +63,13 @@ implements SetupWidgetUiHandlers {
 	@Override
 	public void onSave() {
 		Log.debug("CLOSE");
-		getEventBus().fireEvent(new AlertEvent(AlertType.SUCCESS, "Saved!"));
-		getView().hide();
+		dispatcher.execute(new SaveSetupAction(getView().getSelectedPort()), new MyCallback<SaveSetupResult>(this) {
+
+			@Override
+			public void onSuccess(SaveSetupResult result) {
+				getEventBus().fireEvent(new AlertEvent(AlertType.SUCCESS, "Saved!"));
+				getView().hide();
+			}
+		});
 	}
 }

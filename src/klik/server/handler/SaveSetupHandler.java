@@ -3,6 +3,8 @@ package klik.server.handler;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import klik.server.Process;
+import klik.server.PropertiesManager;
 import klik.shared.rpc.SaveSetupAction;
 import klik.shared.rpc.SaveSetupResult;
 
@@ -33,7 +35,13 @@ public class SaveSetupHandler implements ActionHandler<SaveSetupAction, SaveSetu
 			final ExecutionContext context) throws ActionException {
 		logger.debug("SaveSetupHandler");
 		try {
-			// start controller server
+			System.out.println("SAVE");
+			PropertiesManager.setProperty("cm11.port", action.getComPort());
+			try {
+				Process.restartThread();
+			} catch (Exception e) {
+				throw new ActionException("Background process restart failed!");
+			}
 			return new SaveSetupResult();
 		}
 		catch (Exception cause) {
