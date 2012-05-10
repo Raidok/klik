@@ -9,14 +9,6 @@ public class X10 {
 		APPLIANCE, ONOFF_LIGHT, DIMMABLE_LIGHT
 	}
 
-	public enum HouseCode {
-		A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P
-	}
-
-	public enum UnitCode {
-		U1,U2,U3,U4,U5,U6,U7,U8,U9,U10,U11,U12,U13,U14,U15,U16
-	}
-
 	public enum State {
 		ON, OFF, DIM;
 
@@ -43,11 +35,5 @@ public class X10 {
 		public int getValue() {
 			return value;
 		}
-	}
-
-	public static String getAddress(HouseCode houseCode, UnitCode unitCode) {
-		String address = Character.toString((char) (houseCode.ordinal() + 'A'));
-		address += Character.toString((char) (unitCode.ordinal() + '1'));
-		return address;
 	}
 }
