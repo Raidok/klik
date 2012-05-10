@@ -3,6 +3,7 @@ package klik.server.handler;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import klik.shared.constants.X10.Function;
 import klik.shared.constants.X10.State;
 import klik.shared.constants.X10.Type;
 import klik.shared.model.UnitStatusDto;
@@ -41,7 +42,7 @@ public class UnitEventHandler implements ActionHandler<UnitEventAction, UnitEven
 			return new UnitEventResult(new UnitStatusDto(
 					Type.DIMMABLE_LIGHT,
 					"XX",
-					action.getEvent().getFunction().equals(State.ON) ? State.OFF : State.ON,
+					action.getEvent().getFunction().equals(Function.ON) ? State.ON : State.OFF,
 					"asd"));
 		}
 		catch (Exception cause) {

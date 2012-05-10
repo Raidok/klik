@@ -66,9 +66,9 @@ UnitElementPresenter.MyView {
 	public void setOn(boolean isOn) {
 		if (isOn) {
 			onButton.setType(ButtonType.SUCCESS);
-			offButton.getElement().removeAttribute("type");
+			offButton.removeStyle(ButtonType.DANGER);
 		} else {
-			onButton.getElement().removeAttribute("type");
+			onButton.removeStyle(ButtonType.SUCCESS);
 			offButton.setType(ButtonType.DANGER);
 		}
 	}

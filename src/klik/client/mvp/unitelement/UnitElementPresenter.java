@@ -7,6 +7,7 @@ import klik.shared.model.UnitEventDto;
 import klik.shared.rpc.UnitEventAction;
 import klik.shared.rpc.UnitEventResult;
 
+import com.google.gwt.core.client.GWT;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
@@ -61,6 +62,7 @@ PresenterWidget<UnitElementPresenter.MyView> implements UnitElementUiHandlers {
 
 			@Override
 			public void onSuccess(UnitEventResult result) {
+				GWT.log("result.getStatus().getState():"+result.getStatus().getState());
 				getView().setOn(result.getStatus().getState().equals(X10.State.ON));
 			}
 		});
