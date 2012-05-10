@@ -13,8 +13,6 @@ import klik.shared.rpc.RetrieveGreetingResult;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.inject.client.AsyncProvider;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.web.bindery.event.shared.EventBus;
@@ -93,12 +91,7 @@ implements HomeUiHandlers {
 
 	@Override
 	public void onSetupClick() {
-		setupDialogProvider.get(new AsyncCallback<SetupWidgetPresenter>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("failz");
-			}
+		setupDialogProvider.get(new MyCallback<SetupWidgetPresenter>(this) {
 
 			@Override
 			public void onSuccess(SetupWidgetPresenter result) {
