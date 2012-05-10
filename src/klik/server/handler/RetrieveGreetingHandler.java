@@ -45,8 +45,8 @@ public class RetrieveGreetingHandler implements ActionHandler<RetrieveGreetingAc
 					+ ". It looks like you are using:" + userAgent;
 
 			ArrayList<UnitStatusDto> list = new ArrayList<UnitStatusDto>();
-			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, X10.HouseCode.C, X10.UnitCode.U9, X10.State.ON, "Desk"));
-			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, X10.HouseCode.A, X10.UnitCode.U1, X10.State.OFF, "Wall"));
+			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, "C9", X10.State.ON, "Desk"));
+			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, "A1", X10.State.OFF, "Wall"));
 
 			return new RetrieveGreetingResult(message, false, list);
 		}
