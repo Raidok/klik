@@ -10,15 +10,24 @@
 		.label {
 			margin-left: 25px;
 		}
+		.buttonLabel {
+			/*font-family: Courier, Courier New;*/
+			font-wight: bold;
+			width: 13px;
+		}
+		.inline {
+			display: inline;
+		}
 	</ui:style>
 	<b:Well>
 		<b:Button ui:field="extendButton" icon="CHEVRON_DOWN" size="LARGE"></b:Button>
 		<g:InlineLabel ui:field="nameLabel" styleName="{style.label}"/>
-		<g:HTMLPanel tag="span" styleName="pull-right clearfix">
-			<g:HTMLPanel tag="span" ui:field="widgetPanel">
-				hello
-			</g:HTMLPanel>
-			<b:Button ui:field="onOffButton" icon="OFF" iconColor="WHITE" size="LARGE"></b:Button>
+		<g:HTMLPanel tag="div" styleName="pull-right">
+			<g:HTMLPanel ui:field="widgetPanel" addStyleNames="{style.inline}" />
+			<b:ButtonGroup addStyleNames="{style.inline}">
+				<b:Button ui:field="onButton" size="LARGE" addStyleNames="{style.buttonLabel}">I</b:Button>
+				<b:Button ui:field="offButton" size="LARGE" addStyleNames="{style.buttonLabel}">O</b:Button>
+			</b:ButtonGroup>
 		</g:HTMLPanel>
 		<g:HTMLPanel ui:field="invisiblePanel" visible="false">
 			<hr />

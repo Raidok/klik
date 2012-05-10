@@ -20,7 +20,8 @@ UnitElementPresenter.MyView {
 	@UiField Button extendButton;
 	@UiField Label nameLabel;
 	@UiField HTMLPanel widgetPanel;
-	@UiField Button onOffButton;
+	@UiField Button onButton;
+	@UiField Button offButton;
 	@UiField HTMLPanel invisiblePanel;
 
 	public interface Binder extends UiBinder<Widget, UnitElementView> {
@@ -39,12 +40,36 @@ UnitElementPresenter.MyView {
 	@Override
 	public void setRow(String code, String name, boolean status) {
 		nameLabel.setText(name);
-		onOffButton.setType(status ? ButtonType.SUCCESS : ButtonType.DANGER);
 	}
 
 	@UiHandler("extendButton")
 	void onExtendClick(ClickEvent e) {
 		invisiblePanel.setVisible(!invisiblePanel.isVisible());
 		extendButton.setIcon(invisiblePanel.isVisible() ? IconType.CHEVRON_UP : IconType.CHEVRON_DOWN);
+	}
+
+	@UiHandler("onButton")
+	void onClick(ClickEvent e) {
+		if (getUiHandlers() != null) {
+			getUiHandlers().setOn(true);
+		}
+	}
+
+	@UiHandler("offButton")
+	void offClick(ClickEvent e) {
+		if (getUiHandlers() != null) {
+			getUiHandlers().setOn(false);
+		}
+	}
+
+	@Override
+	public void setOn(boolean isOn) {
+		if (isOn) {
+			onButton.setType(ButtonType.SUCCESS);
+			offButton.getElement().removeAttribute("type");
+		} else {
+			onButton.getElement().removeAttribute("type");
+			offButton.setType(ButtonType.DANGER);
+		}
 	}
 }
