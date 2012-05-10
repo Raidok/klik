@@ -44,4 +44,10 @@ public class X10 {
 			return value;
 		}
 	}
+
+	public static String getAddress(HouseCode houseCode, UnitCode unitCode) {
+		String address = Character.toString((char) (houseCode.ordinal() + 'A'));
+		address += Character.toString((char) (unitCode.ordinal() + '1'));
+		return address;
+	}
 }
