@@ -1,6 +1,6 @@
 package klik.shared.model;
 
-import klik.shared.X10;
+import klik.shared.constants.X10;
 
 import com.gwtplatform.dispatch.annotation.GenDto;
 import com.gwtplatform.dispatch.annotation.Order;
@@ -13,4 +13,5 @@ public class Unit {
 	@Order(3) X10.UnitCode unitCode;
 	@Order(4) X10.State state;
 	@Order(5) String name;
+
 }

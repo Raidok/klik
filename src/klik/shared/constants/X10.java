@@ -1,4 +1,4 @@
-package klik.shared;
+package klik.shared.constants;
 
 public class X10 {
 
@@ -6,7 +6,7 @@ public class X10 {
 	}
 
 	public enum Type {
-		APPLIANCE, LIGHT
+		APPLIANCE, ONOFF_LIGHT, DIMMABLE_LIGHT
 	}
 
 	public enum HouseCode {
@@ -18,6 +18,16 @@ public class X10 {
 	}
 
 	public enum State {
-		ON, OFF, DIM
+		ON, OFF, DIM;
+
+		int value;
+
+		public void setValue(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return value;
+		}
 	}
 }
