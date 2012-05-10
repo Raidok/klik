@@ -73,8 +73,8 @@ implements HomeUiHandlers {
 					getView().setContentVisible(true);
 					for (UnitStatusDto unit : result.getUnitList()) {
 						UnitElementPresenter unitElement = unitElementProvider.get();
-						unitElement.getView().setRow(
-								unit.getHouseCode() + "" + unit.getUnitCode(),
+						unitElement.set(
+								unit.getAddress(),
 								unit.getName(),
 								unit.getState().equals(X10.State.ON));
 						addToSlot(HomePresenter.TYPE_Content, unitElement);
