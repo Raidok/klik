@@ -1,33 +1,43 @@
 package klik.server;
 
+import klik.server.x10.TJX10P;
+import klik.shared.model.UnitEventDto;
+import x10.util.ThreadSafeQueue;
+
 
 public class Process extends Thread {
 
-	private static Process INSTANCE;
 	private volatile boolean isRunning;
+	private static Process INSTANCE;
+	private static ThreadSafeQueue queue;
+	private static TJX10P cs;
 
 	public Process() {
 		super("BackgroundProcess");
-		System.out.println("LOADER CONSTRUCT");
-		String port = PropertiesManager.getProperty("cm11.port");
-		System.out.println("got port : ["+port+"]");
-		isRunning = true;
+		String comPort = PropertiesManager.getProperty("cm11.port");
+		if (comPort != null && !comPort.isEmpty()) {
+			cs = new TJX10P(comPort);
+			return;
+		}
+		System.out.println("BackgroundProcess did not start!");
+
 	}
 
 	@Override
 	public void run() {
 		synchronized (this) {
 			while(isRunning) {
-				for(int i = 0; i < Integer.MAX_VALUE; i++); // make it to do some work, temporarily
+				if (queue.peek() instanceof UnitEventDto) {
+					cs.addEvent((UnitEventDto) queue.dequeue());
+				}
 				try {
-					sleep(2000);
+					sleep(100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 					return;
 				}
 			}
 		}
-		System.out.println("stops");
 	}
 
 	public static void startNewThread() {
