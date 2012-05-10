@@ -84,4 +84,9 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 			super.setInSlot(slot, content);
 		}
 	}
+
+	@Override
+	public void setContentVisible(boolean visible) {
+		well.setVisible(visible);
+	}
 }

@@ -18,7 +18,6 @@ public class Process extends Thread {
 	public void run() {
 		synchronized (this) {
 			while(isRunning) {
-				System.out.println("run");
 				for(int i = 0; i < Integer.MAX_VALUE; i++); // make it to do some work, temporarily
 				try {
 					sleep(2000);

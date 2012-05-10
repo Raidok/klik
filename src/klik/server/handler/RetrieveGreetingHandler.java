@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import klik.shared.X10.HouseCode;
+import klik.shared.X10.State;
+import klik.shared.X10.Type;
+import klik.shared.X10.UnitCode;
 import klik.shared.model.UnitDto;
 import klik.shared.rpc.RetrieveGreetingAction;
 import klik.shared.rpc.RetrieveGreetingResult;
@@ -43,7 +47,11 @@ public class RetrieveGreetingHandler implements ActionHandler<RetrieveGreetingAc
 			final String message = "I am running " + serverInfo
 					+ ". It looks like you are using:" + userAgent;
 
-			return new RetrieveGreetingResult(message, false, new ArrayList<UnitDto>());
+			ArrayList<UnitDto> list = new ArrayList<UnitDto>();
+			list.add(new UnitDto(Type.LIGHT, HouseCode.C, UnitCode.U9, State.ON, "Desk"));
+			list.add(new UnitDto(Type.LIGHT, HouseCode.A, UnitCode.U1, State.OFF, "Wall"));
+
+			return new RetrieveGreetingResult(message, false, list);
 		}
 		catch (Exception cause) {
 			logger.error("Unable to send message", cause);

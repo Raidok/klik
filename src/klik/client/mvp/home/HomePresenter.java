@@ -1,9 +1,13 @@
 package klik.client.mvp.home;
 
+import klik.client.MyCallback;
 import klik.client.NameTokens;
 import klik.client.dispatch.CachingDispatchAsync;
 import klik.client.mvp.LayoutPresenter;
 import klik.client.mvp.setup.SetupWidgetPresenter;
+import klik.client.mvp.unitelement.UnitElementPresenter;
+import klik.shared.X10;
+import klik.shared.model.UnitDto;
 import klik.shared.rpc.RetrieveGreetingAction;
 import klik.shared.rpc.RetrieveGreetingResult;
 
@@ -12,6 +16,7 @@ import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
@@ -33,6 +38,7 @@ implements HomeUiHandlers {
 	public interface MyView extends View, HasUiHandlers<HomeUiHandlers> {
 		void setHeroUnitVisible(boolean visible);
 		void setHeroUnitMessage(String message);
+		void setContentVisible(boolean visible);
 		void addUnitRow(String code, String name, boolean status);
 	}
 
@@ -43,30 +49,39 @@ implements HomeUiHandlers {
 
 	private final CachingDispatchAsync dispatcher;
 	private final AsyncProvider<SetupWidgetPresenter> setupDialogProvider;
+	private final Provider<UnitElementPresenter> unitElementProvider;
 
 	@Inject
 	public HomePresenter(EventBus eventBus, MyView view, MyProxy proxy,
-			CachingDispatchAsync dispatcher, AsyncProvider<SetupWidgetPresenter> setupDialogProvider) {
+			CachingDispatchAsync dispatcher, AsyncProvider<SetupWidgetPresenter> setupDialogProvider,
+			Provider<UnitElementPresenter> unitElementProvider) {
 		super(eventBus, view, proxy);
 		this.dispatcher = dispatcher;
 		this.setupDialogProvider = setupDialogProvider;
+		this.unitElementProvider = unitElementProvider;
 		getView().setUiHandlers(this);
 	}
 
 	@Override
 	protected void onBind() {
 		super.onBind();
-		dispatcher.execute(new RetrieveGreetingAction(), new AsyncCallback<RetrieveGreetingResult>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("fail");
-			}
+		dispatcher.execute(new RetrieveGreetingAction(), new MyCallback<RetrieveGreetingResult>(this) {
 
 			@Override
 			public void onSuccess(RetrieveGreetingResult result) {
 				getView().setHeroUnitMessage(result.getMessage());
 				getView().setHeroUnitVisible(true);
+				if (result.getUnitList().size() > 0) {
+					getView().setContentVisible(true);
+					for (UnitDto unit : result.getUnitList()) {
+						UnitElementPresenter unitElement = unitElementProvider.get();
+						unitElement.getView().setRow(
+								unit.getHouseCode() + "" + unit.getUnitCode(),
+								unit.getName(),
+								unit.getState().equals(X10.State.ON));
+						addToSlot(HomePresenter.TYPE_Content, unitElement);
+					}
+				}
 			}
 		});
 	}

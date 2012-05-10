@@ -9,6 +9,7 @@ public class UnitElementPresenter extends
 PresenterWidget<UnitElementPresenter.MyView> {
 
 	public interface MyView extends View {
+		void setRow(String code, String name, boolean status);
 	}
 
 	@Inject

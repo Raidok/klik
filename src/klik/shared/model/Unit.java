@@ -12,5 +12,5 @@ public class Unit {
 	@Order(2) X10.HouseCode houseCode;
 	@Order(3) X10.UnitCode unitCode;
 	@Order(4) X10.State state;
-
+	@Order(5) String name;
 }

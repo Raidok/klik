@@ -8,7 +8,9 @@
 	ui:generateLocales='default'>
 
 	<b:Row>
-		<g:InlineLabel ui:field="name">Name</g:InlineLabel>
-		<b:Button ui:field="onOffButton">I/0</b:Button>
+		<g:InlineLabel ui:field="nameLabel">Name</g:InlineLabel>
+		<b:ControlGroup styleName="pull-right">
+			<b:Button ui:field="onOffButton" >I/0</b:Button>
+		</b:ControlGroup>
 	</b:Row>
 </ui:UiBinder>
