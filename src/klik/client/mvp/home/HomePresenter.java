@@ -27,6 +27,7 @@ implements HomeUiHandlers {
 	public interface MyView extends View, HasUiHandlers<HomeUiHandlers> {
 		void setHeroUnitVisible(boolean visible);
 		void setHeroUnitMessage(String message);
+		void addUnitRow(String code, String name, boolean status);
 	}
 
 	@ProxyStandard

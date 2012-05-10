@@ -12,6 +12,8 @@ import klik.client.mvp.home.HomePresenter;
 import klik.client.mvp.home.HomeView;
 import klik.client.mvp.setup.SetupWidgetPresenter;
 import klik.client.mvp.setup.SetupWidgetView;
+import klik.client.mvp.unitelement.UnitElementPresenter;
+import klik.client.mvp.unitelement.UnitElementView;
 import klik.client.resources.Resources;
 
 import com.google.gwt.resources.client.CssResource;
@@ -38,6 +40,9 @@ public class MyClientModule extends AbstractPresenterModule {
 				ErrorView.class, ErrorPresenter.MyProxy.class);
 		bindSingletonPresenterWidget(SetupWidgetPresenter.class, SetupWidgetPresenter.MyView.class,
 				SetupWidgetView.class);
+
+		bindPresenterWidget(UnitElementPresenter.class,
+				UnitElementPresenter.MyView.class, UnitElementView.class);
 	}
 
 	@Inject
