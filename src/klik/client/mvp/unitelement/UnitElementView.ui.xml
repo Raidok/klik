@@ -6,11 +6,20 @@
 	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
 	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
 	ui:generateLocales='default'>
-
-	<b:Row>
-		<g:InlineLabel ui:field="nameLabel">Name</g:InlineLabel>
-		<b:ControlGroup styleName="pull-right">
-			<b:Button ui:field="onOffButton" >I/0</b:Button>
-		</b:ControlGroup>
-	</b:Row>
+	<ui:style>
+		.label {
+			margin-left: 25px;
+		}
+	</ui:style>
+	<b:Well>
+		<b:Button ui:field="extendButton" icon="CHEVRON_DOWN" size="LARGE"></b:Button>
+		<g:InlineLabel ui:field="nameLabel" styleName="{style.label}"/>
+		<g:HTMLPanel ui:field="widgetPanel" tag="span" styleName="pull-right clearfix">
+			hello
+			<b:Button ui:field="onOffButton" icon="OFF" iconColor="WHITE" size="LARGE"></b:Button>
+		</g:HTMLPanel>
+		<g:HTMLPanel ui:field="invisiblePanel" visible="false">
+			<b:ProgressBar percent="90" />
+		</g:HTMLPanel>
+	</b:Well>
 </ui:UiBinder>
