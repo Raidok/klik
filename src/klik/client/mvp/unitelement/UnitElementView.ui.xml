@@ -14,11 +14,14 @@
 	<b:Well>
 		<b:Button ui:field="extendButton" icon="CHEVRON_DOWN" size="LARGE"></b:Button>
 		<g:InlineLabel ui:field="nameLabel" styleName="{style.label}"/>
-		<g:HTMLPanel ui:field="widgetPanel" tag="span" styleName="pull-right clearfix">
-			hello
+		<g:HTMLPanel tag="span" styleName="pull-right clearfix">
+			<g:HTMLPanel tag="span" ui:field="widgetPanel">
+				hello
+			</g:HTMLPanel>
 			<b:Button ui:field="onOffButton" icon="OFF" iconColor="WHITE" size="LARGE"></b:Button>
 		</g:HTMLPanel>
 		<g:HTMLPanel ui:field="invisiblePanel" visible="false">
+			<hr />
 			<b:ProgressBar percent="90" />
 		</g:HTMLPanel>
 	</b:Well>
