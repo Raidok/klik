@@ -9,9 +9,8 @@ import com.gwtplatform.dispatch.annotation.Order;
 public class UnitStatus {
 
 	@Order(1) X10.Type type;
-	@Order(2) X10.HouseCode houseCode;
-	@Order(3) X10.UnitCode unitCode;
-	@Order(4) X10.State state;
-	@Order(5) String name;
+	@Order(2) String address;
+	@Order(3) X10.State state;
+	@Order(4) String name;
 
 }
