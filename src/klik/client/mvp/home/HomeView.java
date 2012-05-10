@@ -3,11 +3,11 @@ package klik.client.mvp.home;
 import com.github.gwtbootstrap.client.ui.Button;
 import com.github.gwtbootstrap.client.ui.Hero;
 import com.github.gwtbootstrap.client.ui.Paragraph;
-import com.github.gwtbootstrap.client.ui.Well;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
@@ -21,7 +21,7 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 	@UiField Hero heroUnit;
 	@UiField Paragraph message;
 	@UiField Button button;
-	@UiField Well well;
+	@UiField HTMLPanel contentPanel;
 
 	@Inject
 	public HomeView(final Binder binder) {
@@ -59,7 +59,7 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 	public void addToSlot(Object slot, Widget content) {
 		if (slot == HomePresenter.TYPE_Content) {
 			if (content != null) {
-				well.add(content);
+				contentPanel.add(content);
 			}
 		} else {
 			super.addToSlot(slot, content);
@@ -68,17 +68,28 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 
 	@Override
 	public void removeFromSlot(Object slot, Widget content) {
-		// TODO Auto-generated method stub
-		super.removeFromSlot(slot, content);
+		if (slot == HomePresenter.TYPE_Content) {
+			contentPanel.clear();
+
+			if (content != null) {
+				for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
+					if (content.equals(contentPanel.getWidget(i))) {
+						contentPanel.getWidget(i).removeFromParent();
+					}
+				}
+			}
+		} else {
+			super.removeFromSlot(slot, content);
+		}
 	}
 
 	@Override
 	public void setInSlot(Object slot, Widget content) {
 		if (slot == HomePresenter.TYPE_Content) {
-			well.clear();
+			contentPanel.clear();
 
 			if (content != null) {
-				well.add(content);
+				contentPanel.add(content);
 			}
 		} else {
 			super.setInSlot(slot, content);
@@ -87,6 +98,6 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 
 	@Override
 	public void setContentVisible(boolean visible) {
-		well.setVisible(visible);
+		contentPanel.setVisible(visible);
 	}
 }

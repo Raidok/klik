@@ -14,6 +14,6 @@
 				<b:Button ui:field="button" icon="COG" iconColor="WHITE" type="PRIMARY" size="LARGE">Setup</b:Button>
 			</b:ButtonGroup>
 		</b:Hero>
-		<b:Well ui:field="well" visible="false"></b:Well>
+		<g:HTMLPanel ui:field="contentPanel" visible="false"></g:HTMLPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 
