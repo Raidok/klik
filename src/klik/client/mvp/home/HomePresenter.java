@@ -4,8 +4,8 @@ import klik.client.NameTokens;
 import klik.client.dispatch.CachingDispatchAsync;
 import klik.client.mvp.LayoutPresenter;
 import klik.client.mvp.setup.SetupWidgetPresenter;
-import klik.shared.rpc.SendGreeting;
-import klik.shared.rpc.SendGreetingResult;
+import klik.shared.rpc.RetrieveGreetingAction;
+import klik.shared.rpc.RetrieveGreetingResult;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.inject.client.AsyncProvider;
@@ -56,7 +56,7 @@ implements HomeUiHandlers {
 	@Override
 	protected void onBind() {
 		super.onBind();
-		dispatcher.execute(new SendGreeting(), new AsyncCallback<SendGreetingResult>() {
+		dispatcher.execute(new RetrieveGreetingAction(), new AsyncCallback<RetrieveGreetingResult>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -64,7 +64,7 @@ implements HomeUiHandlers {
 			}
 
 			@Override
-			public void onSuccess(SendGreetingResult result) {
+			public void onSuccess(RetrieveGreetingResult result) {
 				getView().setHeroUnitMessage(result.getMessage());
 				getView().setHeroUnitVisible(true);
 			}
