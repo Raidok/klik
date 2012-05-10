@@ -6,7 +6,7 @@ public class X10 {
 	}
 
 	public enum Type {
-		UNIT, LIGHT
+		APPLIANCE, LIGHT
 	}
 
 	public enum HouseCode {
