@@ -6,7 +6,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import klik.shared.constants.X10;
-import klik.shared.model.UnitDto;
+import klik.shared.model.UnitStatusDto;
 import klik.shared.rpc.RetrieveGreetingAction;
 import klik.shared.rpc.RetrieveGreetingResult;
 
@@ -44,9 +44,9 @@ public class RetrieveGreetingHandler implements ActionHandler<RetrieveGreetingAc
 			final String message = "I am running " + serverInfo
 					+ ". It looks like you are using:" + userAgent;
 
-			ArrayList<UnitDto> list = new ArrayList<UnitDto>();
-			list.add(new UnitDto(X10.Type.DIMMABLE_LIGHT, X10.HouseCode.C, X10.UnitCode.U9, X10.State.ON, "Desk"));
-			list.add(new UnitDto(X10.Type.DIMMABLE_LIGHT, X10.HouseCode.A, X10.UnitCode.U1, X10.State.OFF, "Wall"));
+			ArrayList<UnitStatusDto> list = new ArrayList<UnitStatusDto>();
+			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, X10.HouseCode.C, X10.UnitCode.U9, X10.State.ON, "Desk"));
+			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, X10.HouseCode.A, X10.UnitCode.U1, X10.State.OFF, "Wall"));
 
 			return new RetrieveGreetingResult(message, false, list);
 		}

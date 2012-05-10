@@ -6,7 +6,7 @@ import com.gwtplatform.dispatch.annotation.GenDto;
 import com.gwtplatform.dispatch.annotation.Order;
 
 @GenDto
-public class Unit {
+public class UnitStatus {
 
 	@Order(1) X10.Type type;
 	@Order(2) X10.HouseCode houseCode;

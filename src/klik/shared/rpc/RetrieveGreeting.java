@@ -2,7 +2,7 @@ package klik.shared.rpc;
 
 import java.util.ArrayList;
 
-import klik.shared.model.UnitDto;
+import klik.shared.model.UnitStatusDto;
 
 import com.gwtplatform.dispatch.annotation.GenDispatch;
 import com.gwtplatform.dispatch.annotation.Out;
@@ -13,5 +13,6 @@ public class RetrieveGreeting {
 
 	@Out(1) String message;
 	@Out(2) boolean isSetUp;
-	@Out(3) ArrayList<UnitDto> unitList;
+	@Out(3) ArrayList<UnitStatusDto> unitList;
+
 }

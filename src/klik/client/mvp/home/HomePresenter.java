@@ -6,8 +6,8 @@ import klik.client.dispatch.CachingDispatchAsync;
 import klik.client.mvp.LayoutPresenter;
 import klik.client.mvp.setup.SetupWidgetPresenter;
 import klik.client.mvp.unitelement.UnitElementPresenter;
-import klik.shared.X10;
-import klik.shared.model.UnitDto;
+import klik.shared.constants.X10;
+import klik.shared.model.UnitStatusDto;
 import klik.shared.rpc.RetrieveGreetingAction;
 import klik.shared.rpc.RetrieveGreetingResult;
 
@@ -73,7 +73,7 @@ implements HomeUiHandlers {
 				getView().setHeroUnitVisible(true);
 				if (result.getUnitList().size() > 0) {
 					getView().setContentVisible(true);
-					for (UnitDto unit : result.getUnitList()) {
+					for (UnitStatusDto unit : result.getUnitList()) {
 						UnitElementPresenter unitElement = unitElementProvider.get();
 						unitElement.getView().setRow(
 								unit.getHouseCode() + "" + unit.getUnitCode(),
