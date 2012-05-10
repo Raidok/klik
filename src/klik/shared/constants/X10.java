@@ -30,4 +30,18 @@ public class X10 {
 			return value;
 		}
 	}
+
+	public enum Dimming {
+		DIM, BRIGHT;
+
+		int value;
+
+		public void setValue(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return value;
+		}
+	}
 }
