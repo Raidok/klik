@@ -10,6 +10,6 @@ public class UnitEvent {
 
 	@Order(1) X10.HouseCode houseCode;
 	@Order(2) X10.UnitCode unitCode;
-	@Order(3) X10.Dimming state;
+	@Order(3) X10.Function function;
 
 }

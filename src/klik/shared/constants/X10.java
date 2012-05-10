@@ -31,8 +31,8 @@ public class X10 {
 		}
 	}
 
-	public enum Dimming {
-		DIM, BRIGHT;
+	public enum Function {
+		ALL_UNITS_OFF,ALL_LIGHTS_ON,ON,OFF,DIM,BRIGHT,ALL_LIGHTS_OFF;
 
 		int value;
 
