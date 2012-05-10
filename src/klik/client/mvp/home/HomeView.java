@@ -49,4 +49,39 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 			getUiHandlers().onSetupClick();
 		}
 	}
+
+	@Override
+	public void addUnitRow(String code, String name, boolean status) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void addToSlot(Object slot, Widget content) {
+		if (slot == HomePresenter.TYPE_Content) {
+			if (content != null) {
+				well.add(content);
+			}
+		} else {
+			super.addToSlot(slot, content);
+		}
+	}
+
+	@Override
+	public void removeFromSlot(Object slot, Widget content) {
+		// TODO Auto-generated method stub
+		super.removeFromSlot(slot, content);
+	}
+
+	@Override
+	public void setInSlot(Object slot, Widget content) {
+		if (slot == HomePresenter.TYPE_Content) {
+			well.clear();
+
+			if (content != null) {
+				well.add(content);
+			}
+		} else {
+			super.setInSlot(slot, content);
+		}
+	}
 }
