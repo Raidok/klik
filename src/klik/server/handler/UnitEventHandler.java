@@ -36,7 +36,7 @@ public class UnitEventHandler implements ActionHandler<UnitEventAction, UnitEven
 			final ExecutionContext context) throws ActionException {
 		logger.debug("UnitEventHandler");
 		try {
-			System.out.println("COMMAND "+action.getEvent().getCode()+" "+action.getEvent().getFunction());
+			System.out.println("COMMAND "+action.getEvent().getAddress()+" "+action.getEvent().getFunction());
 
 			return new UnitEventResult(new UnitStatusDto(
 					Type.DIMMABLE_LIGHT,
