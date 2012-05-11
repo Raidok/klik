@@ -4,23 +4,10 @@ import klik.shared.constants.X10;
 import klik.shared.constants.X10.Function;
 import klik.shared.model.UnitEventDto;
 import x10.Command;
-import x10.Controller;
 
 public class TJX10P {
 
-	private static Controller cm;
-
-	public TJX10P(String comPort) {
-		/*try {
-			cm = new CM11ASerialController(comPort);
-			return;
-		} catch (IOException e) {
-			System.out.println("Creating controller failed!");
-		}*/
-	}
-
-	public void addEvent(UnitEventDto ev) {
-		cm.addCommand(createCommand(ev));
+	private TJX10P() {
 	}
 
 	public static Command createCommand(UnitEventDto ev) {

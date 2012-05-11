@@ -3,6 +3,7 @@ package klik.server.handler;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import klik.server.Process;
 import klik.shared.constants.X10.Function;
 import klik.shared.constants.X10.State;
 import klik.shared.constants.X10.Type;
@@ -38,7 +39,7 @@ public class UnitEventHandler implements ActionHandler<UnitEventAction, UnitEven
 		logger.debug("UnitEventHandler");
 		try {
 			System.out.println("COMMAND "+action.getEvent().getAddress()+" "+action.getEvent().getFunction());
-
+			Process.sendCommand(action.getEvent());
 			return new UnitEventResult(new UnitStatusDto(
 					Type.DIMMABLE_LIGHT,
 					"XX",

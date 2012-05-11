@@ -36,7 +36,7 @@ public class Loader implements Servlet {
 
 	@Override
 	public void init(ServletConfig arg0) throws ServletException {
-		Process.startNewThread();
+		Process.restartThread();
 	}
 
 	@Override

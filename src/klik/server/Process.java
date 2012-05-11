@@ -1,66 +1,50 @@
 package klik.server;
 
+import java.io.IOException;
+
 import klik.server.x10.TJX10P;
 import klik.shared.model.UnitEventDto;
-import x10.util.ThreadSafeQueue;
+import x10.CM11ASerialController;
+import x10.OperationTimedOutException;
 
 
-public class Process extends Thread {
+public class Process {
 
-	private volatile boolean isRunning;
-	private static Process INSTANCE;
-	private static ThreadSafeQueue queue;
-	private static TJX10P cs;
+	private static CM11ASerialController cm;
 
-	public Process() {
-		super("BackgroundProcess");
+	private Process() {
+	}
+
+	private static void createInstance() {
 		String comPort = PropertiesManager.getProperty("cm11.port");
 		if (comPort != null && !comPort.isEmpty()) {
-			cs = new TJX10P(comPort);
+			try {
+				cm = new CM11ASerialController(comPort);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return;
 		}
 		System.out.println("BackgroundProcess did not start!");
 
 	}
 
-	@Override
-	public void run() {
-		synchronized (this) {
-			while(isRunning) {
-				if (queue.peek() instanceof UnitEventDto) {
-					cs.addEvent((UnitEventDto) queue.dequeue());
-				}
-				try {
-					sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					return;
-				}
-			}
-		}
-	}
-
-	public static void startNewThread() {
-		if (INSTANCE == null || !INSTANCE.isAlive()) {
-			INSTANCE = new Process();
-			INSTANCE.start();
-		} else {
-			System.out.println("Cannot start new thread!");
-		}
+	public static void sendCommand(UnitEventDto ev) {
+		cm.addCommand(TJX10P.createCommand(ev));
 	}
 
 	public static void restartThread() {
-		stopThread();
-		startNewThread();
-	}
-
-	public static void stopThread() {
-		INSTANCE.isRunning = false;
-		try {
-			INSTANCE.join(); // wait for the thread to finish it's last loop
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (cm != null) {
+			try {
+				cm.shutdown(0);
+			} catch (OperationTimedOutException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		System.out.println("Stopped!");
+		createInstance();
 	}
 }
