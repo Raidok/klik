@@ -6,10 +6,14 @@
 	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
 	ui:generateLocales='default'>
 	<ui:with type="klik.client.NameTokens" field="nameTokens"></ui:with>
-	<ui:with type="klik.client.resources.Resources" field="resources"></ui:with>
 	<ui:style>
 		.push {
 			padding-top: 40px;
+		}
+		.refreshButton {
+			width: 16px;
+			height: 16px;
+			padding: 6px 9px 6px !important;
 		}
 	</ui:style>
 	<g:HTMLPanel>
@@ -21,7 +25,9 @@
 				<b:NavLink href="#{nameTokens.getAdmin}" styleName="">Admin</b:NavLink>
 				<b:NavLink href="#{nameTokens.getError}" styleName="">Error</b:NavLink>
 			</b:Nav>
-			<b:Nav alignment="RIGHT"><b:NavText ui:field="loading" visible="false">Loading...</b:NavText></b:Nav>
+			<b:Nav alignment="RIGHT">
+			<b:Button ui:field="refreshButton" icon="REFRESH" iconColor="WHITE" type="SUCCESS" addStyleNames="{style.refreshButton}" />
+			</b:Nav>
 		</b:Navbar>
 
 		<g:HTMLPanel styleName="container">

@@ -3,13 +3,16 @@ package klik.client.mvp;
 import klik.client.resources.Resources;
 
 import com.github.gwtbootstrap.client.ui.Alert;
-import com.github.gwtbootstrap.client.ui.NavText;
+import com.github.gwtbootstrap.client.ui.Button;
 import com.github.gwtbootstrap.client.ui.constants.AlertType;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
@@ -20,16 +23,18 @@ public class LayoutView extends ViewImpl implements LayoutPresenter.MyView {
 	}
 
 	private final Widget widget;
+	private String loading;
+	private String backup;
 
-	@UiField(provided = true) final Resources resources;
 	@UiField HTMLPanel alertPanel;
 	@UiField HTMLPanel contentPanel;
-	@UiField NavText loading;
+	@UiField Button refreshButton;
 
 	@Inject
 	public LayoutView(final Binder binder, final Resources resources) {
-		this.resources = resources;
+		loading = new Image(resources.loading()).toString();
 		widget = binder.createAndBindUi(this);
+		backup = refreshButton.getElement().getInnerHTML();
 	}
 
 	@Override
@@ -54,13 +59,13 @@ public class LayoutView extends ViewImpl implements LayoutPresenter.MyView {
 	public void showLoading(boolean visible) {
 		if (visible) {
 			GWT.log("show loading");
-			loading.setVisible(visible);
+			refreshButton.getElement().setInnerHTML(loading);
 		} else {
 			GWT.log("hide loading");
 			new Timer() {
 				@Override
 				public void run() {
-					loading.setVisible(false);
+					refreshButton.getElement().setInnerHTML(backup);
 				}
 			}.schedule(50); // run it with a little delay
 		}
@@ -80,5 +85,10 @@ public class LayoutView extends ViewImpl implements LayoutPresenter.MyView {
 		alert.setText(message);
 		alert.setAnimation(true);
 		alertPanel.add(alert);
+	}
+
+	@UiHandler("refreshButton")
+	void onRefreshClick(ClickEvent e) {
+		showLoading(true);
 	}
 }
