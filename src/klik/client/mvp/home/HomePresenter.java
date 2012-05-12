@@ -7,6 +7,7 @@ import klik.client.mvp.LayoutPresenter;
 import klik.client.mvp.setup.SetupWidgetPresenter;
 import klik.client.mvp.unitelement.UnitElementPresenter;
 import klik.shared.constants.X10;
+import klik.shared.event.RefreshEvent;
 import klik.shared.model.UnitStatusDto;
 import klik.shared.rpc.RetrieveGreetingAction;
 import klik.shared.rpc.RetrieveGreetingResult;
@@ -63,23 +64,12 @@ implements HomeUiHandlers {
 	@Override
 	protected void onBind() {
 		super.onBind();
-		dispatcher.execute(new RetrieveGreetingAction(), new MyCallback<RetrieveGreetingResult>(this) {
+		refresh(); // load the content
+		addRegisteredHandler(RefreshEvent.getType(), new RefreshEvent.RefreshHandler() {
 
 			@Override
-			public void onSuccesss(RetrieveGreetingResult result) {
-				getView().setHeroUnitMessage(result.getMessage());
-				getView().setHeroUnitVisible(true);
-				if (result.getUnitList().size() > 0) {
-					getView().setContentVisible(true);
-					for (UnitStatusDto unit : result.getUnitList()) {
-						UnitElementPresenter unitElement = unitElementProvider.get();
-						unitElement.set(
-								unit.getAddress(),
-								unit.getName(),
-								unit.getState().equals(X10.State.ON));
-						addToSlot(HomePresenter.TYPE_Content, unitElement);
-					}
-				}
+			public void onRefresh(RefreshEvent event) {
+				refresh();
 			}
 		});
 	}
@@ -98,6 +88,28 @@ implements HomeUiHandlers {
 				RevealRootPopupContentEvent.fire(HomePresenter.this, result);
 			}
 
+		});
+	}
+
+	private void refresh() {
+		dispatcher.execute(new RetrieveGreetingAction(), new MyCallback<RetrieveGreetingResult>(this) {
+
+			@Override
+			public void onSuccesss(RetrieveGreetingResult result) {
+				getView().setHeroUnitMessage(result.getMessage());
+				getView().setHeroUnitVisible(true);
+				if (result.getUnitList().size() > 0) {
+					getView().setContentVisible(true);
+					for (UnitStatusDto unit : result.getUnitList()) {
+						UnitElementPresenter unitElement = unitElementProvider.get();
+						unitElement.set(
+								unit.getAddress(),
+								unit.getName(),
+								unit.getState().equals(X10.State.ON));
+						addToSlot(HomePresenter.TYPE_Content, unitElement);
+					}
+				}
+			}
 		});
 	}
 }

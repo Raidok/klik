@@ -4,6 +4,8 @@ import java.util.Date;
 
 import klik.client.resources.Resources;
 
+import org.mortbay.log.Log;
+
 import com.github.gwtbootstrap.client.ui.Alert;
 import com.github.gwtbootstrap.client.ui.Button;
 import com.github.gwtbootstrap.client.ui.constants.AlertType;
@@ -17,9 +19,9 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.gwtplatform.mvp.client.ViewImpl;
+import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 
-public class LayoutView extends ViewImpl implements LayoutPresenter.MyView {
+public class LayoutView extends ViewWithUiHandlers<LayoutUiHandlers> implements LayoutPresenter.MyView {
 
 	public interface Binder extends UiBinder<Widget, LayoutView> {
 	}
@@ -65,12 +67,14 @@ public class LayoutView extends ViewImpl implements LayoutPresenter.MyView {
 			loadStart = new Date().getTime();
 		} else {
 			GWT.log("hide loading");
+			long time = (new Date().getTime() - loadStart);
+			Log.debug("TIME:"+time);
 			new Timer() {
 				@Override
 				public void run() {
 					refreshButton.getElement().setInnerHTML(backup);
 				}
-			}.schedule((new Date().getTime() - loadStart) < 200 ? 200 : 0); // run it with a little delay
+			}.schedule(time < 200 ? 200 : 0); // run it with a little delay
 		}
 	}
 
@@ -92,6 +96,8 @@ public class LayoutView extends ViewImpl implements LayoutPresenter.MyView {
 
 	@UiHandler("refreshButton")
 	void onRefreshClick(ClickEvent e) {
-		showLoading(true);
+		if (getUiHandlers() != null) {
+			getUiHandlers().onRefresh();
+		}
 	}
 }

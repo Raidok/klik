@@ -1,14 +1,17 @@
 package klik.client.mvp;
 
+import klik.client.dispatch.CachingDispatchAsync;
 import klik.shared.event.AlertEvent;
 import klik.shared.event.AlertEventHandler;
 import klik.shared.event.LoadingEvent;
+import klik.shared.event.RefreshEvent;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.github.gwtbootstrap.client.ui.constants.AlertType;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
+import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.ContentSlot;
@@ -23,12 +26,13 @@ import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
 
-public class LayoutPresenter extends Presenter<LayoutPresenter.MyView, LayoutPresenter.MyProxy> {
+public class LayoutPresenter extends Presenter<LayoutPresenter.MyView, LayoutPresenter.MyProxy>
+implements LayoutUiHandlers {
 
 	@ContentSlot
 	public static final Type<RevealContentHandler<?>> TYPE_SetContent = new Type<RevealContentHandler<?>>();
 
-	public interface MyView extends View {
+	public interface MyView extends View, HasUiHandlers<LayoutUiHandlers> {
 		void showLoading(boolean visible);
 		void clearAlerts();
 		void showAlert(AlertType type, String message);
@@ -38,10 +42,14 @@ public class LayoutPresenter extends Presenter<LayoutPresenter.MyView, LayoutPre
 	public interface MyProxy extends Proxy<LayoutPresenter> {
 	}
 
+	private final CachingDispatchAsync dispatcher;
+
 	@Inject
 	public LayoutPresenter(final EventBus eventBus, final MyView view,
-			final MyProxy proxy) {
+			final MyProxy proxy, CachingDispatchAsync dispatcher) {
 		super(eventBus, view, proxy);
+		this.dispatcher = dispatcher;
+		getView().setUiHandlers(this);
 	}
 
 	@Override
@@ -96,5 +104,10 @@ public class LayoutPresenter extends Presenter<LayoutPresenter.MyView, LayoutPre
 				getView().showLoading(event.isLoading());
 			}
 		});
+	}
+
+	@Override
+	public void onRefresh() {
+		fireEvent(new RefreshEvent());
 	}
 }
