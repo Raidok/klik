@@ -96,7 +96,8 @@ PresenterWidget<UnitElementListPresenter.MyView> {
 				unitElement.set(
 						unit.getAddress(),
 						unit.getName(),
-						unit.getState().equals(X10.State.ON));
+						unit.getState().equals(X10.State.ON),
+						unit.getType().equals(X10.Type.DIMMABLE_LIGHT));
 				addToSlot(UnitElementListPresenter.TYPE_UnitList, unitElement);
 				unitsMap.put(address, unit);
 				GWT.log("added "+address);

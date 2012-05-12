@@ -1,12 +1,9 @@
 package klik.server.handler;
 
-import java.util.ArrayList;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import klik.shared.constants.X10;
-import klik.shared.model.UnitStatusDto;
+import klik.server.TempUnitHolder;
 import klik.shared.rpc.RetrieveUnitStatusesAction;
 import klik.shared.rpc.RetrieveUnitStatusesResult;
 
@@ -37,11 +34,8 @@ public class RetrieveUnitStatusesHandler implements ActionHandler<RetrieveUnitSt
 			final ExecutionContext context) throws ActionException {
 
 		try {
-			ArrayList<UnitStatusDto> list = new ArrayList<UnitStatusDto>();
-			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, "C9", X10.State.OFF, "Desk"));
-			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, "A1", X10.State.ON, "Wall"));
 
-			return new RetrieveUnitStatusesResult(list);
+			return new RetrieveUnitStatusesResult(TempUnitHolder.getList());
 		}
 		catch (Exception cause) {
 			logger.error("Unable to send message", cause);

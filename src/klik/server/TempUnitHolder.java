@@ -17,13 +17,15 @@ public class TempUnitHolder {
 				X10.Type.ONOFF_LIGHT,
 				"C9",
 				X10.State.ON,
-				"Desk");
+				"Desk",
+				100);
 		unitMap.put(unit.getAddress(), unit);
 		unit = new UnitStatusDto(
 				X10.Type.DIMMABLE_LIGHT,
 				"A1",
-				X10.State.ON.setValue(80),
-				"Wall");
+				X10.State.ON,
+				"Wall",
+				80);
 		unitMap.put(unit.getAddress(), unit);
 	}
 
@@ -33,5 +35,9 @@ public class TempUnitHolder {
 
 	public static UnitStatusDto getStatus(String address) {
 		return unitMap.get(address);
+	}
+
+	public static UnitStatusDto setStatus(String address, UnitStatusDto status) {
+		return unitMap.put(address, status);
 	}
 }

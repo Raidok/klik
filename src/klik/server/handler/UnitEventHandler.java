@@ -4,9 +4,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import klik.server.Process;
-import klik.shared.constants.X10.Function;
+import klik.server.TempUnitHolder;
 import klik.shared.constants.X10.State;
-import klik.shared.constants.X10.Type;
 import klik.shared.model.UnitStatusDto;
 import klik.shared.rpc.UnitEventAction;
 import klik.shared.rpc.UnitEventResult;
@@ -38,13 +37,26 @@ public class UnitEventHandler implements ActionHandler<UnitEventAction, UnitEven
 			final ExecutionContext context) throws ActionException {
 		logger.debug("UnitEventHandler");
 		try {
-			System.out.println("COMMAND "+action.getEvent().getAddress()+" "+action.getEvent().getFunction());
+			System.out.println("COMMAND "+action.getEvent().getAddress()+" "+action.getEvent().getFunction()+" "+action.getEvent().getValue());
 			Process.sendCommand(action.getEvent());
-			return new UnitEventResult(new UnitStatusDto( // TODO put correct values here when database is implemented
-					Type.DIMMABLE_LIGHT,
-					"XX",
-					action.getEvent().getFunction().equals(Function.ON) ? State.ON : State.OFF,
-					"asd"));
+			UnitStatusDto unit = TempUnitHolder.getStatus(action.getEvent().getAddress());
+			State state = null;
+			switch (action.getEvent().getFunction()) {
+			case ON:
+				state = State.ON;
+				break;
+			case DIM:
+			case BRIGHT:
+				state = State.DIM;
+				break;
+			default:
+			case OFF:
+				state = State.OFF;
+				break;
+			}
+			unit = new UnitStatusDto(unit.getType(), unit.getAddress(), state, unit.getName(), unit.getValue());
+			TempUnitHolder.setStatus(unit.getAddress(), unit);
+			return new UnitEventResult(unit);
 		}
 		catch (Exception cause) {
 			logger.error("Unable to send response", cause);

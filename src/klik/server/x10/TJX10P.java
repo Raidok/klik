@@ -20,12 +20,12 @@ public class TJX10P {
 	 * @return Command
 	 */
 	public static Command createCommand(UnitEventDto ev) {
-		System.out.println("event arrived:"+ev.getAddress()+" "+ev.getFunction()+ev.getFunction().getValue());
+		System.out.println("event arrived:"+ev.getAddress()+" "+ev.getFunction()+" "+ev.getValue());
 		byte function = createFunction(ev.getFunction());
 
 		if (ev.getFunction() == Function.BRIGHT ||
 				ev.getFunction() == Function.DIM) {
-			return new Command(ev.getAddress(), function, ev.getFunction().getValue());
+			return new Command(ev.getAddress(), function, ev.getValue());
 		}
 		return new Command(ev.getAddress(), function);
 	}
@@ -53,7 +53,7 @@ public class TJX10P {
 			return Command.ALL_UNITS_OFF;
 		default:
 			// this should never happen
-			throw new RuntimeException("Illegal function!");
+			throw new RuntimeException("Illegal function " + function + "!");
 		}
 	}
 }

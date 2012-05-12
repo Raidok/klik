@@ -12,5 +12,6 @@ public class UnitStatus {
 	@Order(2) String address;
 	@Order(3) X10.State state;
 	@Order(4) String name;
+	@Order(5) int value;
 
 }
