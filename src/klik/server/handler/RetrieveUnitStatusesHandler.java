@@ -38,8 +38,8 @@ public class RetrieveUnitStatusesHandler implements ActionHandler<RetrieveUnitSt
 
 		try {
 			ArrayList<UnitStatusDto> list = new ArrayList<UnitStatusDto>();
-			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, "C9", X10.State.ON, "Desk"));
-			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, "A1", X10.State.OFF, "Wall"));
+			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, "C9", X10.State.OFF, "Desk"));
+			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, "A1", X10.State.ON, "Wall"));
 
 			return new RetrieveUnitStatusesResult(list);
 		}

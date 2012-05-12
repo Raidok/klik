@@ -10,6 +10,7 @@ import klik.client.mvp.unitelement.UnitElementPresenter;
 import klik.shared.constants.X10;
 import klik.shared.event.RefreshEvent;
 import klik.shared.event.UnitStatusChangeEvent;
+import klik.shared.event.UnitStatusChangeEvent.UnitStatusChangeHandler;
 import klik.shared.model.UnitStatusDto;
 import klik.shared.rpc.RetrieveUnitStatusesAction;
 import klik.shared.rpc.RetrieveUnitStatusesResult;
@@ -53,6 +54,16 @@ PresenterWidget<UnitElementListPresenter.MyView> {
 				retrieveAndRefresh();
 			}
 		});
+		addRegisteredHandler(UnitStatusChangeEvent.getType(), new UnitStatusChangeHandler() {
+			@Override
+			public void onUnitStatusChange(UnitStatusChangeEvent event) {
+				if (unitsMap.containsKey(event.getAddress())) {
+					unitsMap.put(event.getAddress(), event.getStatus());
+				} else {
+					GWT.log("a very bad thing happened");
+				}
+			}
+		});
 	}
 
 	private void retrieveAndRefresh() {
@@ -71,9 +82,12 @@ PresenterWidget<UnitElementListPresenter.MyView> {
 		for (UnitStatusDto unit : unitList) {
 			String address = unit.getAddress();
 			if (unitsMap.containsKey(address)) {
+				GWT.log("old:"+unitsMap.get(address));
+				GWT.log("new:"+unit);
 				if (!unit.equals(unitsMap.get(address))) {
 					GWT.log("update "+address);
-					fireEvent(new UnitStatusChangeEvent(address));
+					fireEvent(new UnitStatusChangeEvent(address, unit));
+					unitsMap.put(address, unit); // override with a copy of the new status
 				} else {
 					GWT.log("same "+address);
 				}

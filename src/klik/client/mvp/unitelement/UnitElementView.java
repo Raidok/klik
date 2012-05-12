@@ -40,6 +40,7 @@ UnitElementPresenter.MyView {
 	@Override
 	public void setRow(String code, String name, boolean status) {
 		nameLabel.setText(name);
+		setOn(status);
 	}
 
 	@UiHandler("extendButton")

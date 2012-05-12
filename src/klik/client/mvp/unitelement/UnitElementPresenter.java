@@ -3,6 +3,8 @@ package klik.client.mvp.unitelement;
 import klik.client.MyCallback;
 import klik.client.dispatch.CachingDispatchAsync;
 import klik.shared.constants.X10;
+import klik.shared.event.UnitStatusChangeEvent;
+import klik.shared.event.UnitStatusChangeEvent.UnitStatusChangeHandler;
 import klik.shared.model.UnitEventDto;
 import klik.shared.rpc.UnitEventAction;
 import klik.shared.rpc.UnitEventResult;
@@ -18,12 +20,12 @@ public class UnitElementPresenter extends
 PresenterWidget<UnitElementPresenter.MyView> implements UnitElementUiHandlers {
 
 	public interface MyView extends View, HasUiHandlers<UnitElementUiHandlers> {
-		void setRow(String code, String name, boolean status);
+		void setRow(String address, String name, boolean status);
 		void setOn(boolean isOn);
 	}
 
 	private final CachingDispatchAsync dispatcher;
-	private String code;
+	private String address;
 
 	@Inject
 	public UnitElementPresenter(final EventBus eventBus, final MyView view,
@@ -36,12 +38,21 @@ PresenterWidget<UnitElementPresenter.MyView> implements UnitElementUiHandlers {
 	@Override
 	protected void onBind() {
 		super.onBind();
+		addRegisteredHandler(UnitStatusChangeEvent.getType(), new UnitStatusChangeHandler() {
+			@Override
+			public void onUnitStatusChange(UnitStatusChangeEvent event) {
+				if (address.equals(event.getAddress())) {
+					GWT.log("UPDATED "+address + event.getStatus().getState().equals(X10.State.ON));
+					getView().setRow(address, event.getStatus().getName(), event.getStatus().getState().equals(X10.State.ON));
+				}
+			}
+		});
 	}
 
-	public void set(String code, String name, boolean status) {
-		getView().setRow(code, name, status);
+	public void set(String address, String name, boolean status) {
+		getView().setRow(address, name, status);
 		getView().setOn(status);
-		this.code = code;
+		this.address = address;
 	}
 
 	@Override
@@ -58,10 +69,11 @@ PresenterWidget<UnitElementPresenter.MyView> implements UnitElementUiHandlers {
 		} else {
 			function = X10.Function.OFF;
 		}
-		dispatcher.execute(new UnitEventAction(new UnitEventDto(code, function)), new MyCallback<UnitEventResult>(this) {
+		dispatcher.execute(new UnitEventAction(new UnitEventDto(address, function)), new MyCallback<UnitEventResult>(this) {
 
 			@Override
 			public void onSuccesss(UnitEventResult result) {
+				fireEvent(new UnitStatusChangeEvent(address, result.getStatus()));
 				GWT.log("result.getStatus().getState():"+result.getStatus().getState());
 				getView().setOn(result.getStatus().getState().equals(X10.State.ON));
 			}
@@ -69,7 +81,7 @@ PresenterWidget<UnitElementPresenter.MyView> implements UnitElementUiHandlers {
 	}
 
 	public String getCode() {
-		return code;
+		return address;
 	}
 
 }
