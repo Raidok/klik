@@ -1,12 +1,9 @@
 package klik.server.handler;
 
-import java.util.ArrayList;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import klik.shared.constants.X10;
-import klik.shared.model.UnitStatusDto;
+import klik.server.TempUnitHolder;
 import klik.shared.rpc.RetrieveGreetingAction;
 import klik.shared.rpc.RetrieveGreetingResult;
 
@@ -44,11 +41,7 @@ public class RetrieveGreetingHandler implements ActionHandler<RetrieveGreetingAc
 			final String message = "I am running " + serverInfo
 					+ ". It looks like you are using:" + userAgent;
 
-			ArrayList<UnitStatusDto> list = new ArrayList<UnitStatusDto>();
-			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, "C9", X10.State.ON, "Desk"));
-			list.add(new UnitStatusDto(X10.Type.DIMMABLE_LIGHT, "A1", X10.State.OFF, "Wall"));
-
-			return new RetrieveGreetingResult(message, false, list);
+			return new RetrieveGreetingResult(message, false, TempUnitHolder.getList());
 		}
 		catch (Exception cause) {
 			logger.error("Unable to send message", cause);

@@ -1,7 +1,7 @@
 package klik.server;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import klik.shared.constants.X10;
@@ -20,15 +20,15 @@ public class TempUnitHolder {
 				"Desk");
 		unitMap.put(unit.getAddress(), unit);
 		unit = new UnitStatusDto(
-				X10.Type.ONOFF_LIGHT,
-				"C9",
-				X10.State.ON,
+				X10.Type.DIMMABLE_LIGHT,
+				"A1",
+				X10.State.ON.setValue(80),
 				"Wall");
 		unitMap.put(unit.getAddress(), unit);
 	}
 
-	public static List<UnitStatusDto> getList() {
-		return (List<UnitStatusDto>) unitMap.values();
+	public static ArrayList<UnitStatusDto> getList() {
+		return new ArrayList<UnitStatusDto>(unitMap.values());
 	}
 
 	public static UnitStatusDto getStatus(String address) {

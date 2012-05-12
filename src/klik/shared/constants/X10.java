@@ -14,8 +14,9 @@ public class X10 {
 
 		int value;
 
-		public void setValue(int value) {
+		public State setValue(int value) {
 			this.value = value;
+			return this;
 		}
 
 		public int getValue() {
