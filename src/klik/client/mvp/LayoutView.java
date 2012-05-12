@@ -4,8 +4,6 @@ import java.util.Date;
 
 import klik.client.resources.Resources;
 
-import org.mortbay.log.Log;
-
 import com.github.gwtbootstrap.client.ui.Alert;
 import com.github.gwtbootstrap.client.ui.Button;
 import com.github.gwtbootstrap.client.ui.constants.AlertType;
@@ -68,7 +66,7 @@ public class LayoutView extends ViewWithUiHandlers<LayoutUiHandlers> implements 
 		} else {
 			GWT.log("hide loading");
 			long time = (new Date().getTime() - loadStart);
-			Log.debug("TIME:"+time);
+			GWT.log("TIME:"+time);
 			new Timer() {
 				@Override
 				public void run() {
