@@ -6,6 +6,7 @@ import klik.client.mvp.error.ErrorPresenter;
 import klik.client.mvp.home.HomePresenter;
 import klik.client.mvp.setup.SetupWidgetPresenter;
 import klik.client.mvp.unitelement.UnitElementPresenter;
+import klik.client.mvp.unitelementlist.UnitElementListPresenter;
 
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.gwt.inject.client.GinModules;
@@ -28,4 +29,5 @@ public interface MyGinjector extends Ginjector {
 	AsyncProvider<AdminPresenter> getAdminPresenter();
 	AsyncProvider<ErrorPresenter> getErrorPresenter();
 	AsyncProvider<SetupWidgetPresenter> getSetupPresenter();
+	AsyncProvider<UnitElementListPresenter> getUnitListPresenter();
 }

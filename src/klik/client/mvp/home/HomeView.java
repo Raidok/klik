@@ -51,11 +51,6 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 	}
 
 	@Override
-	public void addUnitRow(String code, String name, boolean status) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void addToSlot(Object slot, Widget content) {
 		if (slot == HomePresenter.TYPE_Content) {
 			if (content != null) {

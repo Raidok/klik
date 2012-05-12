@@ -22,6 +22,8 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 import com.gwtplatform.mvp.client.gin.DefaultModule;
+import klik.client.mvp.unitelementlist.UnitElementListPresenter;
+import klik.client.mvp.unitelementlist.UnitElementListView;
 
 public class MyClientModule extends AbstractPresenterModule {
 
@@ -43,6 +45,10 @@ public class MyClientModule extends AbstractPresenterModule {
 
 		bindPresenterWidget(UnitElementPresenter.class,
 				UnitElementPresenter.MyView.class, UnitElementView.class);
+
+		bindSingletonPresenterWidget(UnitElementListPresenter.class,
+				UnitElementListPresenter.MyView.class,
+				UnitElementListView.class);
 	}
 
 	@Inject

@@ -68,5 +68,8 @@ PresenterWidget<UnitElementPresenter.MyView> implements UnitElementUiHandlers {
 		});
 	}
 
+	public String getCode() {
+		return code;
+	}
 
 }

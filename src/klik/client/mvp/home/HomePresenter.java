@@ -5,22 +5,17 @@ import klik.client.NameTokens;
 import klik.client.dispatch.CachingDispatchAsync;
 import klik.client.mvp.LayoutPresenter;
 import klik.client.mvp.setup.SetupWidgetPresenter;
-import klik.client.mvp.unitelement.UnitElementPresenter;
-import klik.shared.constants.X10;
-import klik.shared.event.RefreshEvent;
-import klik.shared.model.UnitStatusDto;
+import klik.client.mvp.unitelementlist.UnitElementListPresenter;
 import klik.shared.rpc.RetrieveGreetingAction;
 import klik.shared.rpc.RetrieveGreetingResult;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
-import com.gwtplatform.mvp.client.annotations.ContentSlot;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyStandard;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
@@ -31,14 +26,12 @@ import com.gwtplatform.mvp.client.proxy.RevealRootPopupContentEvent;
 public class HomePresenter extends Presenter<HomePresenter.MyView, HomePresenter.MyProxy>
 implements HomeUiHandlers {
 
-	@ContentSlot
 	public static final Type<RevealContentHandler<?>> TYPE_Content = new Type<RevealContentHandler<?>>();
 
 	public interface MyView extends View, HasUiHandlers<HomeUiHandlers> {
 		void setHeroUnitVisible(boolean visible);
 		void setHeroUnitMessage(String message);
 		void setContentVisible(boolean visible);
-		void addUnitRow(String code, String name, boolean status);
 	}
 
 	@ProxyStandard
@@ -48,28 +41,40 @@ implements HomeUiHandlers {
 
 	private final CachingDispatchAsync dispatcher;
 	private final AsyncProvider<SetupWidgetPresenter> setupDialogProvider;
-	private final Provider<UnitElementPresenter> unitElementProvider;
+	private final AsyncProvider<UnitElementListPresenter> unitListProvider;
 
 	@Inject
 	public HomePresenter(EventBus eventBus, MyView view, MyProxy proxy,
 			CachingDispatchAsync dispatcher, AsyncProvider<SetupWidgetPresenter> setupDialogProvider,
-			Provider<UnitElementPresenter> unitElementProvider) {
+			AsyncProvider<UnitElementListPresenter> unitListProvider) {
 		super(eventBus, view, proxy);
 		this.dispatcher = dispatcher;
 		this.setupDialogProvider = setupDialogProvider;
-		this.unitElementProvider = unitElementProvider;
+		this.unitListProvider = unitListProvider;
 		getView().setUiHandlers(this);
 	}
 
 	@Override
 	protected void onBind() {
 		super.onBind();
-		refresh(); // load the content
-		addRegisteredHandler(RefreshEvent.getType(), new RefreshEvent.RefreshHandler() {
-
+		dispatcher.execute(new RetrieveGreetingAction(), new MyCallback<RetrieveGreetingResult>(this) {
 			@Override
-			public void onRefresh(RefreshEvent event) {
-				refresh();
+			public void onSuccesss(final RetrieveGreetingResult result) {
+				if (result.getMessage() != null) {
+					getView().setHeroUnitMessage(result.getMessage());
+					getView().setHeroUnitVisible(true);
+				}
+
+				if (result.getUnitList().size() > 0) {
+					unitListProvider.get(new MyCallback<UnitElementListPresenter>(HomePresenter.this) {
+						@Override
+						public void onSuccesss(UnitElementListPresenter result2) {
+							result2.refresh(result.getUnitList());
+							setInSlot(HomePresenter.TYPE_Content, result2);
+							getView().setContentVisible(true);
+						}
+					});
+				}
 			}
 		});
 	}
@@ -88,28 +93,6 @@ implements HomeUiHandlers {
 				RevealRootPopupContentEvent.fire(HomePresenter.this, result);
 			}
 
-		});
-	}
-
-	private void refresh() {
-		dispatcher.execute(new RetrieveGreetingAction(), new MyCallback<RetrieveGreetingResult>(this) {
-
-			@Override
-			public void onSuccesss(RetrieveGreetingResult result) {
-				getView().setHeroUnitMessage(result.getMessage());
-				getView().setHeroUnitVisible(true);
-				if (result.getUnitList().size() > 0) {
-					getView().setContentVisible(true);
-					for (UnitStatusDto unit : result.getUnitList()) {
-						UnitElementPresenter unitElement = unitElementProvider.get();
-						unitElement.set(
-								unit.getAddress(),
-								unit.getName(),
-								unit.getState().equals(X10.State.ON));
-						addToSlot(HomePresenter.TYPE_Content, unitElement);
-					}
-				}
-			}
 		});
 	}
 }
