@@ -40,7 +40,7 @@ public class UnitEventHandler implements ActionHandler<UnitEventAction, UnitEven
 		try {
 			System.out.println("COMMAND "+action.getEvent().getAddress()+" "+action.getEvent().getFunction());
 			Process.sendCommand(action.getEvent());
-			return new UnitEventResult(new UnitStatusDto(
+			return new UnitEventResult(new UnitStatusDto( // TODO put correct values here when database is implemented
 					Type.DIMMABLE_LIGHT,
 					"XX",
 					action.getEvent().getFunction().equals(Function.ON) ? State.ON : State.OFF,

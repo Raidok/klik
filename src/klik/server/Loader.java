@@ -10,6 +10,8 @@ import javax.servlet.ServletResponse;
 
 /**
  * This class deals with the background processes.
+ * The init method gets called when the servlet container starts,
+ * it is set to do this in the web.xml file.
  * @author raido
  */
 public class Loader implements Servlet {

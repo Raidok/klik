@@ -5,11 +5,20 @@ import klik.shared.constants.X10.Function;
 import klik.shared.model.UnitEventDto;
 import x10.Command;
 
+/**
+ * Utility class to connect to the Java X10 Project
+ * @author raido
+ */
 public class TJX10P {
 
 	private TJX10P() {
 	}
 
+	/**
+	 * Translates UnitEventDto to the Java X10 Project Command object
+	 * @param ev event
+	 * @return Command
+	 */
 	public static Command createCommand(UnitEventDto ev) {
 		System.out.println("event arrived:"+ev.getAddress()+" "+ev.getFunction()+ev.getFunction().getValue());
 		byte function = createFunction(ev.getFunction());

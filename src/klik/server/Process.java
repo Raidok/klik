@@ -7,7 +7,11 @@ import klik.shared.model.UnitEventDto;
 import x10.CM11ASerialController;
 import x10.OperationTimedOutException;
 
-
+/**
+ * Class that handles running various background processes like
+ * the CM11A serial controller for example.
+ * @author raido
+ */
 public class Process {
 
 	private static CM11ASerialController cm;
@@ -47,4 +51,6 @@ public class Process {
 		}
 		createInstance();
 	}
+
+	// TODO shutdown method to be invoked from the UI too
 }
