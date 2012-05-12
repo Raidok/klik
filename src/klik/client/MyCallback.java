@@ -1,6 +1,7 @@
 package klik.client;
 
 import klik.shared.event.AlertEvent;
+import klik.shared.event.LoadingEvent;
 
 import com.github.gwtbootstrap.client.ui.constants.AlertType;
 import com.google.gwt.event.shared.HasHandlers;
@@ -12,6 +13,7 @@ public abstract class MyCallback<T> implements AsyncCallback<T> {
 
 	public MyCallback(HasHandlers handlers) {
 		this.handlers = handlers;
+		handlers.fireEvent(new LoadingEvent(true));
 	}
 
 	@Override
@@ -20,6 +22,11 @@ public abstract class MyCallback<T> implements AsyncCallback<T> {
 	}
 
 	@Override
-	public abstract void onSuccess(T result);
+	public void onSuccess(T result) {
+		onSuccesss(result);
+		handlers.fireEvent(new LoadingEvent(false));
+	}
+
+	public abstract void onSuccesss(T result);
 
 }

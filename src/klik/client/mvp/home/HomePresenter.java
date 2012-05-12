@@ -66,7 +66,7 @@ implements HomeUiHandlers {
 		dispatcher.execute(new RetrieveGreetingAction(), new MyCallback<RetrieveGreetingResult>(this) {
 
 			@Override
-			public void onSuccess(RetrieveGreetingResult result) {
+			public void onSuccesss(RetrieveGreetingResult result) {
 				getView().setHeroUnitMessage(result.getMessage());
 				getView().setHeroUnitVisible(true);
 				if (result.getUnitList().size() > 0) {
@@ -94,7 +94,7 @@ implements HomeUiHandlers {
 		setupDialogProvider.get(new MyCallback<SetupWidgetPresenter>(this) {
 
 			@Override
-			public void onSuccess(SetupWidgetPresenter result) {
+			public void onSuccesss(SetupWidgetPresenter result) {
 				RevealRootPopupContentEvent.fire(HomePresenter.this, result);
 			}
 

@@ -48,7 +48,7 @@ implements SetupWidgetUiHandlers {
 		Log.debug("REVEAL");
 		dispatcher.execute(new RetrieveSetupAction(), new MyCallback<RetrieveSetupResult>(this) {
 			@Override
-			public void onSuccess(RetrieveSetupResult result) {
+			public void onSuccesss(RetrieveSetupResult result) {
 				getView().fillFields(result.getComPorts(), result.getActivePort());
 			}
 		});
@@ -66,7 +66,7 @@ implements SetupWidgetUiHandlers {
 		dispatcher.execute(new SaveSetupAction(getView().getSelectedPort()), new MyCallback<SaveSetupResult>(this) {
 
 			@Override
-			public void onSuccess(SaveSetupResult result) {
+			public void onSuccesss(SaveSetupResult result) {
 				getEventBus().fireEvent(new AlertEvent(AlertType.SUCCESS, "Saved!"));
 				getView().hide();
 			}

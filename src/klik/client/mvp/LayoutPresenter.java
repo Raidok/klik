@@ -2,7 +2,9 @@ package klik.client.mvp;
 
 import klik.shared.event.AlertEvent;
 import klik.shared.event.AlertEventHandler;
+import klik.shared.event.LoadingEvent;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.github.gwtbootstrap.client.ui.constants.AlertType;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
@@ -66,6 +68,7 @@ public class LayoutPresenter extends Presenter<LayoutPresenter.MyView, LayoutPre
 			@Override
 			public void onAsyncCallStart(AsyncCallStartEvent asyncCallStartEvent) {
 				getView().showLoading(true);
+				Log.debug("AsyncCallStartEvent!");
 			}
 		});
 
@@ -74,6 +77,7 @@ public class LayoutPresenter extends Presenter<LayoutPresenter.MyView, LayoutPre
 			@Override
 			public void onAsyncCallSucceed(AsyncCallSucceedEvent asyncCallSucceedEvent) {
 				getView().showLoading(false);
+				Log.debug("AsyncCallSucceedEvent!");
 			}
 		});
 
@@ -83,6 +87,13 @@ public class LayoutPresenter extends Presenter<LayoutPresenter.MyView, LayoutPre
 			public void onAsyncCallFail(AsyncCallFailEvent asyncCallFailEvent) {
 				getView().showLoading(false);
 				fireEvent(new AlertEvent(AlertType.ERROR, "No internet connection or trouble with server!"));
+			}
+		});
+
+		addRegisteredHandler(LoadingEvent.getType(), new LoadingEvent.LoadingHandler() {
+			@Override
+			public void onLoading(LoadingEvent event) {
+				getView().showLoading(event.isLoading());
 			}
 		});
 	}

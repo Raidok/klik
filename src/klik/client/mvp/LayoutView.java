@@ -1,5 +1,7 @@
 package klik.client.mvp;
 
+import java.util.Date;
+
 import klik.client.resources.Resources;
 
 import com.github.gwtbootstrap.client.ui.Alert;
@@ -25,7 +27,7 @@ public class LayoutView extends ViewImpl implements LayoutPresenter.MyView {
 	private final Widget widget;
 	private String loading;
 	private String backup;
-
+	private long loadStart;
 	@UiField HTMLPanel alertPanel;
 	@UiField HTMLPanel contentPanel;
 	@UiField Button refreshButton;
@@ -60,6 +62,7 @@ public class LayoutView extends ViewImpl implements LayoutPresenter.MyView {
 		if (visible) {
 			GWT.log("show loading");
 			refreshButton.getElement().setInnerHTML(loading);
+			loadStart = new Date().getTime();
 		} else {
 			GWT.log("hide loading");
 			new Timer() {
@@ -67,7 +70,7 @@ public class LayoutView extends ViewImpl implements LayoutPresenter.MyView {
 				public void run() {
 					refreshButton.getElement().setInnerHTML(backup);
 				}
-			}.schedule(50); // run it with a little delay
+			}.schedule((new Date().getTime() - loadStart) < 200 ? 200 : 0); // run it with a little delay
 		}
 	}
 

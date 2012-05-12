@@ -61,7 +61,7 @@ PresenterWidget<UnitElementPresenter.MyView> implements UnitElementUiHandlers {
 		dispatcher.execute(new UnitEventAction(new UnitEventDto(code, function)), new MyCallback<UnitEventResult>(this) {
 
 			@Override
-			public void onSuccess(UnitEventResult result) {
+			public void onSuccesss(UnitEventResult result) {
 				GWT.log("result.getStatus().getState():"+result.getStatus().getState());
 				getView().setOn(result.getStatus().getState().equals(X10.State.ON));
 			}
