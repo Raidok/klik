@@ -2,7 +2,6 @@ package klik.server.x10;
 
 import klik.shared.constants.X10;
 import klik.shared.constants.X10.Function;
-import klik.shared.model.UnitEventDto;
 import x10.Command;
 
 /**
@@ -19,15 +18,13 @@ public class TJX10P {
 	 * @param ev event
 	 * @return Command
 	 */
-	public static Command createCommand(UnitEventDto ev) {
-		System.out.println("event arrived:"+ev.getAddress()+" "+ev.getFunction()+" "+ev.getValue());
-		byte function = createFunction(ev.getFunction());
-
-		if (ev.getFunction() == Function.BRIGHT ||
-				ev.getFunction() == Function.DIM) {
-			return new Command(ev.getAddress(), function, ev.getValue());
+	public static Command createCommand(Function function, String address, int value) {
+		byte func = createFunction(function);
+		if (function == Function.BRIGHT ||
+				function == Function.DIM) {
+			return new Command(address, func, value);
 		}
-		return new Command(ev.getAddress(), function);
+		return new Command(address, func);
 	}
 
 	/**

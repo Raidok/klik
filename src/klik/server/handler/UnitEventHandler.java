@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import klik.server.Process;
 import klik.server.TempUnitHolder;
+import klik.shared.constants.X10.Function;
 import klik.shared.constants.X10.State;
 import klik.shared.model.UnitStatusDto;
 import klik.shared.rpc.UnitEventAction;
@@ -37,25 +38,52 @@ public class UnitEventHandler implements ActionHandler<UnitEventAction, UnitEven
 			final ExecutionContext context) throws ActionException {
 		logger.debug("UnitEventHandler");
 		try {
-			System.out.println("COMMAND "+action.getEvent().getAddress()+" "+action.getEvent().getFunction()+" "+action.getEvent().getValue());
-			Process.sendCommand(action.getEvent());
-			UnitStatusDto unit = TempUnitHolder.getStatus(action.getEvent().getAddress());
+			String address = action.getEvent().getAddress(); // replace with id
+			logger.debug("COMMAND "+address+" "+action.getEvent().getFunction()+" "+action.getEvent().getValue());
+			UnitStatusDto unit = TempUnitHolder.getStatus(address);
 			State state = null;
+			int value = unit.getValue();
 			switch (action.getEvent().getFunction()) {
 			case ON:
 				state = State.ON;
+				value = 100;
 				break;
-			case DIM:
 			case BRIGHT:
+				/*if (unit.getValue() < 50) { // TODO should be user modifiable
+					value = 40;
+				}*/
+			case DIM:
 				state = State.DIM;
-				break;
-			default:
+				value += action.getEvent().getValue();
+				if (value >= 0) { // TODO should be user modifiable
+					if (value >= 100) {
+						value = 100;
+						state = State.ON;
+					}
+					break;
+				}
 			case OFF:
+			default:
 				state = State.OFF;
-				break;
+				value = 0;
 			}
-			unit = new UnitStatusDto(unit.getType(), unit.getAddress(), state, unit.getName(), unit.getValue());
-			TempUnitHolder.setStatus(unit.getAddress(), unit);
+
+			logger.debug("processed state:"+state+" value:"+value+" diff:"+(unit.getValue() - value));
+
+			Function function = action.getEvent().getFunction();
+			int amount = 0;
+			if (state == State.ON) { // override function if jump to 0/100 occured
+				function = Function.ON;
+			} else if (state == State.OFF) {
+				function = Function.OFF;
+			} else {
+				amount = value == 0 ? 0 : Math.abs(unit.getValue() - value);
+			}
+			Process.sendCommand(function, address, amount);
+
+			unit = new UnitStatusDto(unit.getType(), address, state, unit.getName(), value);
+			TempUnitHolder.setStatus(address, unit);
+
 			return new UnitEventResult(unit);
 		}
 		catch (Exception cause) {

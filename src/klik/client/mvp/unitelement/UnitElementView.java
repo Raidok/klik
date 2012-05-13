@@ -41,10 +41,12 @@ UnitElementPresenter.MyView {
 	}
 
 	@Override
-	public void setRow(String code, String name, boolean status, boolean isDimmable) {
+	public void set(String address, String name, boolean isOn, boolean isDimmable) {
+		// set address label
 		nameLabel.setText(name);
+		setOn(isOn);
 		plusMinusButtons.setVisible(isDimmable);
-		setOn(status);
+
 	}
 
 	@UiHandler("extendButton")

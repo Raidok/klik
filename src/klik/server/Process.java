@@ -3,7 +3,7 @@ package klik.server;
 import java.io.IOException;
 
 import klik.server.x10.TJX10P;
-import klik.shared.model.UnitEventDto;
+import klik.shared.constants.X10.Function;
 import x10.CM11ASerialController;
 import x10.OperationTimedOutException;
 
@@ -33,8 +33,8 @@ public class Process {
 
 	}
 
-	public static void sendCommand(UnitEventDto ev) {
-		cm.addCommand(TJX10P.createCommand(ev));
+	public static void sendCommand(Function function, String address, int value) {
+		cm.addCommand(TJX10P.createCommand(function, address, value));
 	}
 
 	public static void restartThread() {
