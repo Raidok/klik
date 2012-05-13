@@ -20,6 +20,7 @@
   <inherits name='com.gwtplatform.mvp.Mvp' />
   <inherits name='com.gwtplatform.dispatch.Dispatch'/>
   <inherits name="com.github.gwtbootstrap.Bootstrap"/>
+  <set-property name="bootstrap.responsiveDesign" value="true"/>
 
   <!-- Add gwt-log support, default level `OFF` - check for 
       extended property 'log_level' to see if this is overridden -->

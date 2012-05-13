@@ -18,7 +18,7 @@
 	</ui:style>
 	<g:HTMLPanel>
 
-		<b:Navbar position="TOP">
+		<b:ResponsiveNavbar position="TOP">
 			<b:Brand>klik klik klik</b:Brand>
 			<b:Nav>
 				<b:NavLink href="#{nameTokens.getHome}">Home</b:NavLink>
@@ -28,7 +28,7 @@
 			<b:Nav alignment="RIGHT">
 			<b:Button ui:field="refreshButton" icon="REFRESH" iconColor="WHITE" type="SUCCESS" addStyleNames="{style.refreshButton}" />
 			</b:Nav>
-		</b:Navbar>
+		</b:ResponsiveNavbar>
 
 		<g:HTMLPanel styleName="container">
 			<g:HTMLPanel ui:field="alertPanel" styleName="{style.push}">
