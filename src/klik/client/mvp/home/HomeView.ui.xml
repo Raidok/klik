@@ -5,15 +5,20 @@
 	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
 	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
 	ui:generateLocales='default'>
-
+	<ui:style>
+		.marginBottom20 {
+			margin-bottom: 20px;
+		}
+	</ui:style>
 	<g:HTMLPanel>
-		<b:Hero ui:field="heroUnit">
+		<b:Hero ui:field="heroUnit" addStyleNames="{style.marginBottom20}">
 			<b:PageHeader>Welcome!</b:PageHeader>
 			<b:Paragraph ui:field="message"></b:Paragraph>
 			<b:ButtonGroup styleName="pull-right">
 				<b:Button ui:field="button" icon="COG" iconColor="WHITE" type="PRIMARY" size="LARGE">Setup</b:Button>
 			</b:ButtonGroup>
 		</b:Hero>
+		<g:HTMLPanel ui:field="buttonBar" addStyleNames="{style.marginBottom20}" />
 		<g:HTMLPanel ui:field="contentPanel" visible="false"></g:HTMLPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

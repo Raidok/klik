@@ -5,6 +5,7 @@ import klik.client.mvp.admin.AdminPresenter;
 import klik.client.mvp.error.ErrorPresenter;
 import klik.client.mvp.home.HomePresenter;
 import klik.client.mvp.setup.SetupWidgetPresenter;
+import klik.client.mvp.unitbuttonbar.UnitsButtonBarPresenter;
 import klik.client.mvp.unitelement.UnitElementPresenter;
 import klik.client.mvp.unitelementlist.UnitElementListPresenter;
 
@@ -30,4 +31,5 @@ public interface MyGinjector extends Ginjector {
 	AsyncProvider<ErrorPresenter> getErrorPresenter();
 	AsyncProvider<SetupWidgetPresenter> getSetupPresenter();
 	AsyncProvider<UnitElementListPresenter> getUnitListPresenter();
+	Provider<UnitsButtonBarPresenter> getUnitButtonBarPresenter();
 }

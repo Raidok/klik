@@ -21,6 +21,7 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 	@UiField Hero heroUnit;
 	@UiField Paragraph message;
 	@UiField Button button;
+	@UiField HTMLPanel buttonBar;
 	@UiField HTMLPanel contentPanel;
 
 	@Inject
@@ -65,7 +66,6 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 	public void removeFromSlot(Object slot, Widget content) {
 		if (slot == HomePresenter.TYPE_Content) {
 			contentPanel.clear();
-
 			if (content != null) {
 				for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
 					if (content.equals(contentPanel.getWidget(i))) {
@@ -82,9 +82,13 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 	public void setInSlot(Object slot, Widget content) {
 		if (slot == HomePresenter.TYPE_Content) {
 			contentPanel.clear();
-
 			if (content != null) {
 				contentPanel.add(content);
+			}
+		} else if (slot == HomePresenter.TYPE_ButtonBar) {
+			buttonBar.clear();
+			if (content != null) {
+				buttonBar.add(content);
 			}
 		} else {
 			super.setInSlot(slot, content);

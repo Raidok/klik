@@ -11,10 +11,13 @@
 			margin-left: 25px;
 		}
 		.buttonLabel {
-			width: 13px;
+			width: 14px;
 		}
 		.margin {
 			margin: 0;
+		}
+		.marginBottom0 {
+			margin-bottom: 0;
 		}
 	</ui:style>
 	<b:Well>
@@ -32,7 +35,15 @@
 		</b:ButtonToolbar>
 		<g:HTMLPanel ui:field="invisiblePanel" visible="false" addStyleNames="clearfix">
 			<hr />
-			<b:ProgressBar percent="90" />
+			<b:ButtonToolbar addStyleNames="{style.marginBottom0}">
+				<b:ButtonGroup>
+					<b:Button icon="COG" size="LARGE"></b:Button>
+				</b:ButtonGroup>
+				<b:ButtonGroup addStyleNames="pull-right">
+					<b:Button icon="TRASH" size="LARGE" />
+					<b:Button icon="PENCIL" size="LARGE" />
+				</b:ButtonGroup>
+			</b:ButtonToolbar>
 		</g:HTMLPanel>
 	</b:Well>
 </ui:UiBinder>

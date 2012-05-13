@@ -5,6 +5,7 @@ import klik.client.NameTokens;
 import klik.client.dispatch.CachingDispatchAsync;
 import klik.client.mvp.LayoutPresenter;
 import klik.client.mvp.setup.SetupWidgetPresenter;
+import klik.client.mvp.unitbuttonbar.UnitsButtonBarPresenter;
 import klik.client.mvp.unitelementlist.UnitElementListPresenter;
 import klik.shared.rpc.RetrieveGreetingAction;
 import klik.shared.rpc.RetrieveGreetingResult;
@@ -12,6 +13,7 @@ import klik.shared.rpc.RetrieveGreetingResult;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
@@ -27,6 +29,7 @@ public class HomePresenter extends Presenter<HomePresenter.MyView, HomePresenter
 implements HomeUiHandlers {
 
 	public static final Type<RevealContentHandler<?>> TYPE_Content = new Type<RevealContentHandler<?>>();
+	public static final Type<RevealContentHandler<?>> TYPE_ButtonBar = new Type<RevealContentHandler<?>>();
 
 	public interface MyView extends View, HasUiHandlers<HomeUiHandlers> {
 		void setHeroUnitVisible(boolean visible);
@@ -40,17 +43,20 @@ implements HomeUiHandlers {
 	}
 
 	private final CachingDispatchAsync dispatcher;
+	private final Provider<UnitsButtonBarPresenter> buttonBarProvider;
 	private final AsyncProvider<SetupWidgetPresenter> setupDialogProvider;
 	private final AsyncProvider<UnitElementListPresenter> unitListProvider;
 
 	@Inject
 	public HomePresenter(EventBus eventBus, MyView view, MyProxy proxy,
 			CachingDispatchAsync dispatcher, AsyncProvider<SetupWidgetPresenter> setupDialogProvider,
-			AsyncProvider<UnitElementListPresenter> unitListProvider) {
+			AsyncProvider<UnitElementListPresenter> unitListProvider,
+			Provider<UnitsButtonBarPresenter> buttonBarProvider) {
 		super(eventBus, view, proxy);
 		this.dispatcher = dispatcher;
 		this.setupDialogProvider = setupDialogProvider;
 		this.unitListProvider = unitListProvider;
+		this.buttonBarProvider = buttonBarProvider;
 		getView().setUiHandlers(this);
 	}
 
@@ -64,6 +70,7 @@ implements HomeUiHandlers {
 					getView().setHeroUnitMessage(result.getMessage());
 					getView().setHeroUnitVisible(true);
 				}
+				setInSlot(HomePresenter.TYPE_ButtonBar, buttonBarProvider.get());
 
 				if (result.getUnitList().size() > 0) {
 					unitListProvider.get(new MyCallback<UnitElementListPresenter>(HomePresenter.this) {
