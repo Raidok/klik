@@ -39,18 +39,20 @@ public class Process {
 
 	public static void restartThread() {
 		if (cm != null) {
-			try {
-				cm.shutdown(0);
-			} catch (OperationTimedOutException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			shutDownThread();
 		}
 		createInstance();
 	}
 
-	// TODO shutdown method to be invoked from the UI too
+	public static void shutDownThread() {
+		try {
+			cm.shutdown(0);
+		} catch (OperationTimedOutException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

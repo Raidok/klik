@@ -4,11 +4,14 @@ import java.util.LinkedHashMap;
 
 import klik.client.MyCallback;
 import klik.client.dispatch.CachingDispatchAsync;
+import klik.shared.constants.ServerAction;
 import klik.shared.event.AlertEvent;
 import klik.shared.rpc.RetrieveSetupAction;
 import klik.shared.rpc.RetrieveSetupResult;
 import klik.shared.rpc.SaveSetupAction;
 import klik.shared.rpc.SaveSetupResult;
+import klik.shared.rpc.SendServerCommandAction;
+import klik.shared.rpc.SendServerCommandResult;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.github.gwtbootstrap.client.ui.constants.AlertType;
@@ -56,19 +59,40 @@ implements SetupWidgetUiHandlers {
 
 	@Override
 	public void onClose() {
-		Log.debug("SAVE");
 		getView().hide();
 	}
 
 	@Override
-	public void onSave() {
-		Log.debug("CLOSE");
-		dispatcher.execute(new SaveSetupAction(getView().getSelectedPort()), new MyCallback<SaveSetupResult>(this) {
+	public void onShutDown() {
+		dispatchServerCommand(ServerAction.SHUT_DOWN);
+	}
 
+	@Override
+	public void onRestart() {
+		dispatchServerCommand(ServerAction.RESTART);
+	}
+
+	@Override
+	public void onSave() {
+		dispatcher.execute(new SaveSetupAction(getView().getSelectedPort()), new MyCallback<SaveSetupResult>(this) {
 			@Override
 			public void onSuccesss(SaveSetupResult result) {
 				getEventBus().fireEvent(new AlertEvent(AlertType.SUCCESS, "Saved!"));
 				getView().hide();
+			}
+		});
+	}
+
+	private void dispatchServerCommand(ServerAction action) {
+		dispatcher.execute(new SendServerCommandAction(action), new MyCallback<SendServerCommandResult>(this) {
+			@Override
+			public void onSuccesss(SendServerCommandResult result) {
+				if (result.isSuccessful()) {
+					getEventBus().fireEvent(new AlertEvent(AlertType.SUCCESS, result.getMessage()));
+					getView().hide();
+				} else {
+					getEventBus().fireEvent(new AlertEvent(AlertType.ERROR, result.getMessage()));
+				}
 			}
 		});
 	}

@@ -25,6 +25,8 @@ implements SetupWidgetPresenter.MyView {
 
 	private final Widget widget;
 	@UiField Anchor close;
+	@UiField Button shutDownBtn;
+	@UiField Button restartBtn;
 	@UiField Button save;
 	@UiField ControlGroup activeGroup;
 	@UiField Label activePortLabel;
@@ -45,6 +47,20 @@ implements SetupWidgetPresenter.MyView {
 	public void onCloseClick(ClickEvent e) {
 		if (getUiHandlers() != null) {
 			getUiHandlers().onClose();
+		}
+	}
+
+	@UiHandler("shutDownBtn")
+	public void onShutDownClick(ClickEvent e) {
+		if (getUiHandlers() != null) {
+			getUiHandlers().onShutDown();
+		}
+	}
+
+	@UiHandler("restartBtn")
+	public void onRestartClick(ClickEvent e) {
+		if (getUiHandlers() != null) {
+			getUiHandlers().onRestart();
 		}
 	}
 

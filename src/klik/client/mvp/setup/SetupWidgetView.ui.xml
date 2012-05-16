@@ -30,6 +30,8 @@
 				</b:Form>
 			</g:HTMLPanel>
 			<b:ModalFooter>
+				<b:Button ui:field="shutDownBtn" icon="OFF" iconColor="WHITE" type="WARNING">Shut Down</b:Button>
+				<b:Button ui:field="restartBtn" icon="REPEAT" iconColor="WHITE" type="WARNING">Restart</b:Button>
 				<b:Button ui:field="save" icon="OK" iconColor="WHITE" type="PRIMARY">Save</b:Button>
 			</b:ModalFooter>
 		</g:HTMLPanel>
