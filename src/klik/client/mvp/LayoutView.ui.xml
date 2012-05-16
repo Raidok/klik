@@ -20,14 +20,16 @@
 
 		<b:ResponsiveNavbar position="TOP">
 			<b:Brand>klik klik klik</b:Brand>
-			<b:Nav>
-				<b:NavLink href="#{nameTokens.getHome}">Home</b:NavLink>
-				<b:NavLink href="#{nameTokens.getAdmin}" styleName="">Admin</b:NavLink>
-				<b:NavLink href="#{nameTokens.getError}" styleName="">Error</b:NavLink>
-			</b:Nav>
-			<b:Nav alignment="RIGHT">
-			<b:Button ui:field="refreshButton" icon="REFRESH" iconColor="WHITE" type="SUCCESS" addStyleNames="{style.refreshButton}" />
-			</b:Nav>
+			<b:NavCollapse>
+				<b:Nav>
+					<b:NavLink href="#{nameTokens.getHome}">Home</b:NavLink>
+					<b:NavLink href="#{nameTokens.getAdmin}" styleName="">Admin</b:NavLink>
+					<b:NavLink href="#{nameTokens.getError}" styleName="">Error</b:NavLink>
+				</b:Nav>
+				<b:Nav alignment="RIGHT">
+					<b:Button ui:field="refreshButton" icon="REFRESH" iconColor="WHITE" type="SUCCESS" addStyleNames="{style.refreshButton}" />
+				</b:Nav>
+			</b:NavCollapse>
 		</b:ResponsiveNavbar>
 
 		<g:HTMLPanel styleName="container">
