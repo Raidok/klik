@@ -75,6 +75,7 @@ public class LayoutView extends ViewWithUiHandlers<LayoutUiHandlers> implements 
 			} catch (IllegalArgumentException e) {
 				// Sometimes exception is thrown saying "must be positive" in Chrome..
 				GWT.log("Exception from timer: "+e.getMessage());
+				refreshButton.getElement().setInnerHTML(backup); // do it anyway
 			}
 		}
 	}
