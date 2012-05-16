@@ -60,19 +60,22 @@ public class LayoutView extends ViewWithUiHandlers<LayoutUiHandlers> implements 
 	@Override
 	public void showLoading(boolean visible) {
 		if (visible) {
-			GWT.log("show loading");
 			refreshButton.getElement().setInnerHTML(loading);
 			loadStart = new Date().getTime();
 		} else {
-			GWT.log("hide loading");
 			long time = (new Date().getTime() - loadStart);
-			GWT.log("TIME:"+time);
-			new Timer() {
-				@Override
-				public void run() {
-					refreshButton.getElement().setInnerHTML(backup);
-				}
-			}.schedule(time < 200 ? 200 : 0); // run it with a little delay
+			GWT.log("load time:"+time);
+			try {
+				new Timer() {
+					@Override
+					public void run() {
+						refreshButton.getElement().setInnerHTML(backup);
+					}
+				}.schedule(time < 200 ? 200 : 0); // run it with a little delay
+			} catch (IllegalArgumentException e) {
+				// Sometimes exception is thrown saying "must be positive" in Chrome..
+				GWT.log("Exception from timer: "+e.getMessage());
+			}
 		}
 	}
 
