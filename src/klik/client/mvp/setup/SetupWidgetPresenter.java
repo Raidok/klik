@@ -25,7 +25,8 @@ public class SetupWidgetPresenter extends PresenterWidget<SetupWidgetPresenter.M
 implements SetupWidgetUiHandlers {
 
 	public interface MyView extends PopupView, HasUiHandlers<SetupWidgetUiHandlers> {
-		void fillFields(LinkedHashMap<String, String> comPorts, String activePort);
+		void fillFields(boolean isRunning, LinkedHashMap<String, String> comPorts, String activePort);
+		void setIsRunning(boolean isRunning);
 		String getSelectedPort();
 	}
 
@@ -52,7 +53,7 @@ implements SetupWidgetUiHandlers {
 		dispatcher.execute(new RetrieveSetupAction(), new MyCallback<RetrieveSetupResult>(this) {
 			@Override
 			public void onSuccesss(RetrieveSetupResult result) {
-				getView().fillFields(result.getComPorts(), result.getActivePort());
+				getView().fillFields(result.isRunning(), result.getComPorts(), result.getActivePort());
 			}
 		});
 	}
@@ -87,9 +88,9 @@ implements SetupWidgetUiHandlers {
 		dispatcher.execute(new SendServerCommandAction(action), new MyCallback<SendServerCommandResult>(this) {
 			@Override
 			public void onSuccesss(SendServerCommandResult result) {
-				if (result.isSuccessful()) {
+				getView().setIsRunning(result.isRunning());
+				if (result.isRunning()) {
 					getEventBus().fireEvent(new AlertEvent(AlertType.SUCCESS, result.getMessage()));
-					getView().hide();
 				} else {
 					getEventBus().fireEvent(new AlertEvent(AlertType.ERROR, result.getMessage()));
 				}

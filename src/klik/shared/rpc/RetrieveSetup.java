@@ -9,7 +9,8 @@ import com.gwtplatform.dispatch.shared.UnsecuredActionImpl;
 @GenDispatch(isSecure=false, serviceName=UnsecuredActionImpl.DEFAULT_SERVICE_NAME)
 public class RetrieveSetup {
 
-	@Out(1) LinkedHashMap<String, String> comPorts;
-	@Out(2) String activePort;
+	@Out(1) boolean running;
+	@Out(2) LinkedHashMap<String, String> comPorts;
+	@Out(3) String activePort;
 
 }

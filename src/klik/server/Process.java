@@ -15,6 +15,7 @@ import x10.OperationTimedOutException;
 public class Process {
 
 	private static CM11ASerialController cm;
+	private static boolean isRunning = false;
 
 	private Process() {
 	}
@@ -24,13 +25,13 @@ public class Process {
 		if (comPort != null && !comPort.isEmpty()) {
 			try {
 				cm = new CM11ASerialController(comPort);
+				isRunning = true;
 			} catch (IOException e) {
 				e.printStackTrace();
+				isRunning = false;
 			}
 			return;
 		}
-		System.out.println("BackgroundProcess did not start!");
-
 	}
 
 	public static void sendCommand(Function function, String address, int value) {
@@ -38,21 +39,26 @@ public class Process {
 	}
 
 	public static void restartThread() {
-		if (cm != null) {
-			shutDownThread();
-		}
+		shutDownThread();
 		createInstance();
 	}
 
 	public static void shutDownThread() {
-		try {
-			cm.shutdown(0);
-		} catch (OperationTimedOutException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (cm != null) {
+			try {
+				cm.shutdown(0);
+				isRunning = false;
+			} catch (OperationTimedOutException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+	}
+
+	public static boolean isRunning() {
+		return isRunning;
 	}
 }

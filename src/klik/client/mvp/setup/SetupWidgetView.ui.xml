@@ -6,7 +6,11 @@
 	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
 	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
 	ui:generateLocales='default'>
-
+	<ui:style>
+		.label {
+			padding: 4px;
+		}
+	</ui:style>
 	<g:PopupPanel>
 		<g:HTMLPanel styleName="modal">
 			<g:HTMLPanel styleName="modal-header">
@@ -16,10 +20,16 @@
 			<g:HTMLPanel styleName="modal-body">
 				<b:Form type="HORIZONTAL">
 					<b:Fieldset>
+						<b:ControlGroup>
+							<b:ControlLabel>Status</b:ControlLabel>
+							<b:Controls>
+								<g:Label ui:field="statusLabel" addStyleNames="{style.label}" />
+							</b:Controls>
+						</b:ControlGroup>
 						<b:ControlGroup ui:field="activeGroup" visible="false">
 							<b:ControlLabel>Current COM-port</b:ControlLabel>
 							<b:Controls>
-								<g:InlineLabel ui:field="activePortLabel"></g:InlineLabel>
+								<g:Label ui:field="activePortLabel" addStyleNames="{style.label}" />
 							</b:Controls>
 						</b:ControlGroup>
 						<b:ControlLabel>Select COM-port</b:ControlLabel>
@@ -32,7 +42,7 @@
 			<b:ModalFooter>
 				<b:Button ui:field="shutDownBtn" icon="OFF" iconColor="WHITE" type="WARNING">Shut Down</b:Button>
 				<b:Button ui:field="restartBtn" icon="REPEAT" iconColor="WHITE" type="WARNING">Restart</b:Button>
-				<b:Button ui:field="save" icon="OK" iconColor="WHITE" type="PRIMARY">Save</b:Button>
+				<b:Button ui:field="saveBtn" icon="OK" iconColor="WHITE" type="PRIMARY">Save</b:Button>
 			</b:ModalFooter>
 		</g:HTMLPanel>
 	</g:PopupPanel>

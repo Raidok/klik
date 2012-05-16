@@ -83,7 +83,7 @@ PresenterWidget<UnitElementListPresenter.MyView> {
 				if (!unitStatus.equals(unitsMap.get(address))) {
 					GWT.log("update "+address);
 					fireEvent(new UnitStatusChangeEvent(address, unitStatus));
-					unitsMap.put(address, unitStatus); // override with a copy of the new status
+					unitsMap.put(address, unitStatus); // override with a copy of the new statusLabel
 				} else {
 					GWT.log("same "+address);
 				}

@@ -11,7 +11,7 @@ import com.gwtplatform.dispatch.shared.UnsecuredActionImpl;
 public class SendServerCommand {
 
 	@In(1) ServerAction action;
-	@Out(1) boolean successful;
+	@Out(1) boolean running;
 	@Out(2) String message;
 
 }

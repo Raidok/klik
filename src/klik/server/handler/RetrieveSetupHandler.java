@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import klik.server.Process;
 import klik.server.PropertiesManager;
 import klik.shared.rpc.RetrieveSetupAction;
 import klik.shared.rpc.RetrieveSetupResult;
@@ -21,23 +22,19 @@ import com.gwtplatform.dispatch.server.actionhandler.ActionHandler;
 import com.gwtplatform.dispatch.shared.ActionException;
 
 public class RetrieveSetupHandler implements ActionHandler<RetrieveSetupAction, RetrieveSetupResult> {
+
 	private final Log logger;
-	private final Provider<ServletContext> servletContext;
-	private final Provider<HttpServletRequest> servletRequest;
 
 	@Inject
 	public RetrieveSetupHandler(final Log logger,
 			final Provider<ServletContext> servletContext,
 			final Provider<HttpServletRequest> servletRequest) {
 		this.logger = logger;
-		this.servletContext = servletContext;
-		this.servletRequest = servletRequest;
 	}
 
 	@Override
 	public RetrieveSetupResult execute(final RetrieveSetupAction action,
 			final ExecutionContext context) throws ActionException {
-		logger.debug(getClass().getSimpleName());
 		try {
 			@SuppressWarnings("rawtypes")
 			Enumeration en = CommPortIdentifier.getPortIdentifiers();
@@ -47,12 +44,12 @@ public class RetrieveSetupHandler implements ActionHandler<RetrieveSetupAction, 
 				CommPortIdentifier portId = ((CommPortIdentifier) en.nextElement());
 				if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
 					String name = portId.getName();
-					logger.debug(" port:"+name+" owner:"+portId.getCurrentOwner());
+					logger.debug(" port:"+name);
 					ports.put(name, name);
 				}
 			}
 			String activePort = PropertiesManager.getProperty("cm11.port");
-			return new RetrieveSetupResult(ports, activePort);
+			return new RetrieveSetupResult(Process.isRunning(), ports, activePort);
 		}
 		catch (Exception cause) {
 			logger.error("Unable to send response", cause);

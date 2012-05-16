@@ -25,12 +25,13 @@ implements SetupWidgetPresenter.MyView {
 
 	private final Widget widget;
 	@UiField Anchor close;
-	@UiField Button shutDownBtn;
-	@UiField Button restartBtn;
-	@UiField Button save;
 	@UiField ControlGroup activeGroup;
 	@UiField Label activePortLabel;
+	@UiField Label statusLabel;
 	@UiField ListBox comPortListBox;
+	@UiField Button shutDownBtn;
+	@UiField Button restartBtn;
+	@UiField Button saveBtn;
 
 	@Inject
 	public SetupWidgetView(final EventBus eventBus, final Binder binder) {
@@ -64,7 +65,7 @@ implements SetupWidgetPresenter.MyView {
 		}
 	}
 
-	@UiHandler("save")
+	@UiHandler("saveBtn")
 	public void onSaveClick(ClickEvent e) {
 		if (getUiHandlers() != null) {
 			getUiHandlers().onSave();
@@ -72,8 +73,9 @@ implements SetupWidgetPresenter.MyView {
 	}
 
 	@Override
-	public void fillFields(LinkedHashMap<String, String> comPorts, String activePort) {
+	public void fillFields(boolean isRunning, LinkedHashMap<String, String> comPorts, String activePort) {
 		comPortListBox.clear();
+		setIsRunning(isRunning);
 		if (activePort != null) {
 			activePortLabel.setText(activePort);
 			activeGroup.setVisible(true);
@@ -82,6 +84,17 @@ implements SetupWidgetPresenter.MyView {
 		}
 		for (Map.Entry<String, String> e : comPorts.entrySet()) {
 			comPortListBox.addItem(e.getKey(), e.getValue());
+		}
+	}
+
+	@Override
+	public void setIsRunning(boolean isRunning) {
+		if (isRunning) {
+			statusLabel.setText("Running");
+			shutDownBtn.setText("Shut down");
+		} else {
+			statusLabel.setText("Stopped");
+			shutDownBtn.setText("Start up");
 		}
 	}
 
