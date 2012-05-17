@@ -34,6 +34,7 @@ implements HomeUiHandlers {
 	public interface MyView extends View, HasUiHandlers<HomeUiHandlers> {
 		void setHeroUnitVisible(boolean visible);
 		void setHeroUnitMessage(String message);
+		void setSetupBtnVisible(boolean visible);
 		void setContentVisible(boolean visible);
 	}
 
@@ -66,9 +67,11 @@ implements HomeUiHandlers {
 		dispatcher.execute(new RetrieveGreetingAction(), new MyCallback<RetrieveGreetingResult>(this) {
 			@Override
 			public void onSuccesss(final RetrieveGreetingResult result) {
+				getView().setSetupBtnVisible(!result.isSetUp());
 				if (result.getMessage() != null) {
 					getView().setHeroUnitMessage(result.getMessage());
-					getView().setHeroUnitVisible(true);
+				} else {
+					getView().setHeroUnitVisible(false);
 				}
 				setInSlot(HomePresenter.TYPE_ButtonBar, buttonBarProvider.get());
 

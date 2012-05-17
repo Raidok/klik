@@ -14,7 +14,7 @@
 		<b:Hero ui:field="heroUnit" addStyleNames="{style.marginBottom20}">
 			<b:PageHeader>Welcome!</b:PageHeader>
 			<b:Paragraph ui:field="message"></b:Paragraph>
-			<b:ButtonGroup styleName="pull-right">
+			<b:ButtonGroup ui:field="buttonGroup" styleName="pull-right" visible="false">
 				<b:Button ui:field="button" icon="COG" iconColor="WHITE" type="PRIMARY" size="LARGE">Setup</b:Button>
 			</b:ButtonGroup>
 		</b:Hero>

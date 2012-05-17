@@ -12,7 +12,7 @@ import com.gwtplatform.dispatch.shared.UnsecuredActionImpl;
 public class RetrieveGreeting {
 
 	@Out(1) String message;
-	@Out(2) boolean isSetUp;
+	@Out(2) boolean setUp;
 	@Out(3) ArrayList<UnitStatusDto> unitList;
 
 }

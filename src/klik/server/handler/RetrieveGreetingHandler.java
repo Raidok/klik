@@ -1,6 +1,5 @@
 package klik.server.handler;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import klik.server.TempUnitHolder;
@@ -17,15 +16,12 @@ import com.gwtplatform.dispatch.shared.ActionException;
 
 public class RetrieveGreetingHandler implements ActionHandler<RetrieveGreetingAction, RetrieveGreetingResult> {
 	private final Log logger;
-	private final Provider<ServletContext> servletContext;
 	private final Provider<HttpServletRequest> servletRequest;
 
 	@Inject
 	public RetrieveGreetingHandler(final Log logger,
-			final Provider<ServletContext> servletContext,
 			final Provider<HttpServletRequest> servletRequest) {
 		this.logger = logger;
-		this.servletContext = servletContext;
 		this.servletRequest = servletRequest;
 	}
 
@@ -34,14 +30,17 @@ public class RetrieveGreetingHandler implements ActionHandler<RetrieveGreetingAc
 			final ExecutionContext context) throws ActionException {
 
 		try {
-			String serverInfo = servletContext.get().getServerInfo();
 
-			String userAgent = servletRequest.get().getHeader("User-Agent");
+			// check session
+			if (servletRequest.get().getSession(false) == null) {
+				servletRequest.get().getSession(true); // start a session
+				return new RetrieveGreetingResult("Looks like you are here for the first time. " +
+						" Please check the settings before starting.",
+						false, TempUnitHolder.getList());
+			} else {
+				return new RetrieveGreetingResult(null, true, TempUnitHolder.getList());
+			}
 
-			final String message = "I am running " + serverInfo
-					+ ". It looks like you are using:" + userAgent;
-
-			return new RetrieveGreetingResult(message, false, TempUnitHolder.getList());
 		}
 		catch (Exception cause) {
 			logger.error("Unable to send message", cause);

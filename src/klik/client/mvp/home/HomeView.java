@@ -1,6 +1,7 @@
 package klik.client.mvp.home;
 
 import com.github.gwtbootstrap.client.ui.Button;
+import com.github.gwtbootstrap.client.ui.ButtonGroup;
 import com.github.gwtbootstrap.client.ui.Hero;
 import com.github.gwtbootstrap.client.ui.Paragraph;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -20,6 +21,7 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 	public final Widget widget;
 	@UiField Hero heroUnit;
 	@UiField Paragraph message;
+	@UiField ButtonGroup buttonGroup;
 	@UiField Button button;
 	@UiField HTMLPanel buttonBar;
 	@UiField HTMLPanel contentPanel;
@@ -42,6 +44,16 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 	@Override
 	public void setHeroUnitMessage(String message) {
 		this.message.setText(message);
+	}
+
+	@Override
+	public void setSetupBtnVisible(boolean visible) {
+		buttonGroup.setVisible(visible);
+	}
+
+	@Override
+	public void setContentVisible(boolean visible) {
+		contentPanel.setVisible(visible);
 	}
 
 	@UiHandler("button")
@@ -93,10 +105,5 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 		} else {
 			super.setInSlot(slot, content);
 		}
-	}
-
-	@Override
-	public void setContentVisible(boolean visible) {
-		contentPanel.setVisible(visible);
 	}
 }
