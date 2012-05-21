@@ -12,6 +12,8 @@ import klik.client.mvp.home.HomePresenter;
 import klik.client.mvp.home.HomeView;
 import klik.client.mvp.setup.SetupWidgetPresenter;
 import klik.client.mvp.setup.SetupWidgetView;
+import klik.client.mvp.tabbar.TabBarPresenter;
+import klik.client.mvp.tabbar.TabBarView;
 import klik.client.mvp.unitbuttonbar.UnitsButtonBarPresenter;
 import klik.client.mvp.unitbuttonbar.UnitsButtonBarView;
 import klik.client.mvp.unitelement.UnitElementPresenter;
@@ -51,6 +53,9 @@ public class MyClientModule extends AbstractPresenterModule {
 				UnitElementListView.class);
 		bindSingletonPresenterWidget(UnitsButtonBarPresenter.class,
 				UnitsButtonBarPresenter.MyView.class, UnitsButtonBarView.class);
+
+		bindSingletonPresenterWidget(TabBarPresenter.class,
+				TabBarPresenter.MyView.class, TabBarView.class);
 	}
 
 	@Inject
