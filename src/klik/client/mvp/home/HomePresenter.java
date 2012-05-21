@@ -6,10 +6,10 @@ import klik.client.MyCallback;
 import klik.client.NameTokens;
 import klik.client.dispatch.CachingDispatchAsync;
 import klik.client.mvp.LayoutPresenter;
-import klik.client.mvp.setup.SetupWidgetPresenter;
 import klik.client.mvp.tabbar.TabBarPresenter;
 import klik.client.mvp.unitbuttonbar.UnitsButtonBarPresenter;
 import klik.client.mvp.unitelementlist.UnitElementListPresenter;
+import klik.shared.event.SetupEvent;
 import klik.shared.model.UnitStatusDto;
 import klik.shared.rpc.RetrieveGreetingAction;
 import klik.shared.rpc.RetrieveGreetingResult;
@@ -26,7 +26,6 @@ import com.gwtplatform.mvp.client.annotations.ProxyStandard;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
-import com.gwtplatform.mvp.client.proxy.RevealRootPopupContentEvent;
 
 public class HomePresenter extends Presenter<HomePresenter.MyView, HomePresenter.MyProxy>
 implements HomeUiHandlers {
@@ -47,16 +46,13 @@ implements HomeUiHandlers {
 	}
 
 	private final CachingDispatchAsync dispatcher;
-	private final AsyncProvider<SetupWidgetPresenter> setupDialogProvider;
 	private final AsyncProvider<HomeUnitsProvider> homeUnitsProvider;
 
 	@Inject
 	public HomePresenter(EventBus eventBus, MyView view, MyProxy proxy,
-			CachingDispatchAsync dispatcher, AsyncProvider<SetupWidgetPresenter> setupDialogProvider,
-			AsyncProvider<HomeUnitsProvider> homeUnitsProvider) {
+			CachingDispatchAsync dispatcher, AsyncProvider<HomeUnitsProvider> homeUnitsProvider) {
 		super(eventBus, view, proxy);
 		this.dispatcher = dispatcher;
-		this.setupDialogProvider = setupDialogProvider;
 		this.homeUnitsProvider = homeUnitsProvider;
 		getView().setUiHandlers(this);
 	}
@@ -109,13 +105,6 @@ implements HomeUiHandlers {
 
 	@Override
 	public void onSetupClick() {
-		setupDialogProvider.get(new MyCallback<SetupWidgetPresenter>(this) {
-
-			@Override
-			public void onSuccesss(SetupWidgetPresenter result) {
-				RevealRootPopupContentEvent.fire(HomePresenter.this, result);
-			}
-
-		});
+		fireEvent(new SetupEvent(true));
 	}
 }

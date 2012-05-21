@@ -10,7 +10,7 @@
 		.push {
 			padding-top: 40px;
 		}
-		.refreshButton {
+		.button {
 			width: 16px;
 			height: 16px;
 			padding: 6px 9px 6px !important;
@@ -21,13 +21,9 @@
 		<b:ResponsiveNavbar position="TOP">
 			<b:Brand>klik klik klik</b:Brand>
 			<b:NavCollapse>
-				<b:Nav>
-					<b:NavLink href="#{nameTokens.getHome}">Home</b:NavLink>
-					<b:NavLink href="#{nameTokens.getAdmin}" styleName="">Admin</b:NavLink>
-					<b:NavLink href="#{nameTokens.getError}" styleName="">Error</b:NavLink>
-				</b:Nav>
 				<b:Nav alignment="RIGHT">
-					<b:Button ui:field="refreshButton" icon="REFRESH" iconColor="WHITE" type="SUCCESS" addStyleNames="{style.refreshButton}" />
+					<b:Button ui:field="setupButton" icon="COG" iconColor="WHITE" type="INVERSE" addStyleNames="{style.button}" />
+					<b:Button ui:field="refreshButton" icon="REFRESH" iconColor="WHITE" type="SUCCESS" addStyleNames="{style.button}" />
 				</b:Nav>
 			</b:NavCollapse>
 		</b:ResponsiveNavbar>

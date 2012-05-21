@@ -1,14 +1,18 @@
 package klik.client.mvp;
 
+import klik.client.MyCallback;
 import klik.client.dispatch.CachingDispatchAsync;
+import klik.client.mvp.setup.SetupWidgetPresenter;
 import klik.shared.event.AlertEvent;
 import klik.shared.event.AlertEventHandler;
 import klik.shared.event.LoadingEvent;
 import klik.shared.event.RefreshEvent;
+import klik.shared.event.SetupEvent;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.github.gwtbootstrap.client.ui.constants.AlertType;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.inject.client.AsyncProvider;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
@@ -25,6 +29,7 @@ import com.gwtplatform.mvp.client.proxy.AsyncCallSucceedHandler;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
+import com.gwtplatform.mvp.client.proxy.RevealRootPopupContentEvent;
 
 public class LayoutPresenter extends Presenter<LayoutPresenter.MyView, LayoutPresenter.MyProxy>
 implements LayoutUiHandlers {
@@ -43,12 +48,15 @@ implements LayoutUiHandlers {
 	}
 
 	private final CachingDispatchAsync dispatcher;
+	private final AsyncProvider<SetupWidgetPresenter> setupDialogProvider;
 
 	@Inject
 	public LayoutPresenter(final EventBus eventBus, final MyView view,
-			final MyProxy proxy, CachingDispatchAsync dispatcher) {
+			final MyProxy proxy, CachingDispatchAsync dispatcher,
+			AsyncProvider<SetupWidgetPresenter> setupDialogProvider) {
 		super(eventBus, view, proxy);
 		this.dispatcher = dispatcher;
+		this.setupDialogProvider = setupDialogProvider;
 		getView().setUiHandlers(this);
 	}
 
@@ -104,10 +112,30 @@ implements LayoutUiHandlers {
 				getView().showLoading(event.isLoading());
 			}
 		});
+
+		// listens for external setup events
+		addRegisteredHandler(SetupEvent.getType(), new SetupEvent.SetupHandler() {
+			@Override
+			public void onSetup(SetupEvent event) {
+				if (event.isOpen()) {
+					LayoutPresenter.this.onSetup();
+				}
+			}
+		});
 	}
 
 	@Override
 	public void onRefresh() {
 		fireEvent(new RefreshEvent());
+	}
+
+	@Override
+	public void onSetup() {
+		setupDialogProvider.get(new MyCallback<SetupWidgetPresenter>(this) {
+			@Override
+			public void onSuccesss(SetupWidgetPresenter result) {
+				RevealRootPopupContentEvent.fire(LayoutPresenter.this, result);
+			}
+		});
 	}
 }

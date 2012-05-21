@@ -30,6 +30,7 @@ public class LayoutView extends ViewWithUiHandlers<LayoutUiHandlers> implements 
 	private long loadStart;
 	@UiField HTMLPanel alertPanel;
 	@UiField HTMLPanel contentPanel;
+	@UiField Button setupButton;
 	@UiField Button refreshButton;
 
 	@Inject
@@ -100,6 +101,13 @@ public class LayoutView extends ViewWithUiHandlers<LayoutUiHandlers> implements 
 	void onRefreshClick(ClickEvent e) {
 		if (getUiHandlers() != null) {
 			getUiHandlers().onRefresh();
+		}
+	}
+
+	@UiHandler("setupButton")
+	void onSetupClick(ClickEvent e) {
+		if (getUiHandlers() != null) {
+			getUiHandlers().onSetup();
 		}
 	}
 }
