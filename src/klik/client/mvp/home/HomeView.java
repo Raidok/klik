@@ -69,24 +69,12 @@ public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements Home
 			if (content != null) {
 				contentPanel.add(content);
 			}
-		} else {
-			super.addToSlot(slot, content);
-		}
-	}
-
-	@Override
-	public void removeFromSlot(Object slot, Widget content) {
-		if (slot == HomePresenter.TYPE_Content) {
-			contentPanel.clear();
+		} else if (slot == HomePresenter.TYPE_ButtonBar) {
 			if (content != null) {
-				for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
-					if (content.equals(contentPanel.getWidget(i))) {
-						contentPanel.getWidget(i).removeFromParent();
-					}
-				}
+				buttonBar.add(content);
 			}
 		} else {
-			super.removeFromSlot(slot, content);
+			super.addToSlot(slot, content);
 		}
 	}
 

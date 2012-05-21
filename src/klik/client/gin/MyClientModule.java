@@ -46,16 +46,16 @@ public class MyClientModule extends AbstractPresenterModule {
 				ErrorView.class, ErrorPresenter.MyProxy.class);
 		bindSingletonPresenterWidget(SetupWidgetPresenter.class, SetupWidgetPresenter.MyView.class,
 				SetupWidgetView.class);
-		bindPresenterWidget(UnitElementPresenter.class,
-				UnitElementPresenter.MyView.class, UnitElementView.class);
-		bindSingletonPresenterWidget(UnitElementListPresenter.class,
-				UnitElementListPresenter.MyView.class,
-				UnitElementListView.class);
-		bindSingletonPresenterWidget(UnitsButtonBarPresenter.class,
-				UnitsButtonBarPresenter.MyView.class, UnitsButtonBarView.class);
 
 		bindSingletonPresenterWidget(TabBarPresenter.class,
 				TabBarPresenter.MyView.class, TabBarView.class);
+		bindSingletonPresenterWidget(UnitsButtonBarPresenter.class,
+				UnitsButtonBarPresenter.MyView.class, UnitsButtonBarView.class);
+		bindSingletonPresenterWidget(UnitElementListPresenter.class,
+				UnitElementListPresenter.MyView.class,
+				UnitElementListView.class);
+		bindPresenterWidget(UnitElementPresenter.class,
+				UnitElementPresenter.MyView.class, UnitElementView.class);
 	}
 
 	@Inject

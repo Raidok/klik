@@ -1,19 +1,22 @@
 package klik.client.mvp.home;
 
+import java.util.List;
+
 import klik.client.MyCallback;
 import klik.client.NameTokens;
 import klik.client.dispatch.CachingDispatchAsync;
 import klik.client.mvp.LayoutPresenter;
 import klik.client.mvp.setup.SetupWidgetPresenter;
+import klik.client.mvp.tabbar.TabBarPresenter;
 import klik.client.mvp.unitbuttonbar.UnitsButtonBarPresenter;
 import klik.client.mvp.unitelementlist.UnitElementListPresenter;
+import klik.shared.model.UnitStatusDto;
 import klik.shared.rpc.RetrieveGreetingAction;
 import klik.shared.rpc.RetrieveGreetingResult;
 
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.inject.client.AsyncProvider;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
@@ -44,20 +47,17 @@ implements HomeUiHandlers {
 	}
 
 	private final CachingDispatchAsync dispatcher;
-	private final Provider<UnitsButtonBarPresenter> buttonBarProvider;
 	private final AsyncProvider<SetupWidgetPresenter> setupDialogProvider;
-	private final AsyncProvider<UnitElementListPresenter> unitListProvider;
+	private final AsyncProvider<HomeUnitsProvider> homeUnitsProvider;
 
 	@Inject
 	public HomePresenter(EventBus eventBus, MyView view, MyProxy proxy,
 			CachingDispatchAsync dispatcher, AsyncProvider<SetupWidgetPresenter> setupDialogProvider,
-			AsyncProvider<UnitElementListPresenter> unitListProvider,
-			Provider<UnitsButtonBarPresenter> buttonBarProvider) {
+			AsyncProvider<HomeUnitsProvider> homeUnitsProvider) {
 		super(eventBus, view, proxy);
 		this.dispatcher = dispatcher;
 		this.setupDialogProvider = setupDialogProvider;
-		this.unitListProvider = unitListProvider;
-		this.buttonBarProvider = buttonBarProvider;
+		this.homeUnitsProvider = homeUnitsProvider;
 		getView().setUiHandlers(this);
 	}
 
@@ -66,27 +66,40 @@ implements HomeUiHandlers {
 		super.onBind();
 		dispatcher.execute(new RetrieveGreetingAction(), new MyCallback<RetrieveGreetingResult>(this) {
 			@Override
-			public void onSuccesss(final RetrieveGreetingResult result) {
-				getView().setSetupBtnVisible(!result.isSetUp());
-				if (result.getMessage() != null) {
-					getView().setHeroUnitMessage(result.getMessage());
-				} else {
-					getView().setHeroUnitVisible(false);
-				}
-				setInSlot(HomePresenter.TYPE_ButtonBar, buttonBarProvider.get());
-
-				if (result.getUnitList().size() > 0) {
-					unitListProvider.get(new MyCallback<UnitElementListPresenter>(HomePresenter.this) {
-						@Override
-						public void onSuccesss(UnitElementListPresenter result2) {
-							result2.refresh(result.getUnitList());
-							setInSlot(HomePresenter.TYPE_Content, result2);
-							getView().setContentVisible(true);
-						}
-					});
-				}
+			public void onSuccesss(RetrieveGreetingResult result) {
+				handleGreetingResult(result);
 			}
 		});
+	}
+
+	void handleGreetingResult(final RetrieveGreetingResult result) {
+		getView().setSetupBtnVisible(!result.isSetUp()); // hide setup button
+
+		if (result.getMessage() != null) { // show message if available
+			getView().setHeroUnitMessage(result.getMessage());
+		} else { // otherwise hide herounit
+			getView().setHeroUnitVisible(false);
+		}
+
+		if (result.getUnitList().size() > 0) {
+			homeUnitsProvider.get(new MyCallback<HomeUnitsProvider>(this) {
+
+				@Override
+				public void onSuccesss(HomeUnitsProvider result2) {
+					handleProvider(result.getUnitList(), result2);
+				}
+			});
+		}
+	}
+
+
+	void handleProvider(List<UnitStatusDto> unitList, HomeUnitsProvider result) {
+		addToSlot(TYPE_ButtonBar, (TabBarPresenter) result.get(HomeUnitsProvider.ID_TabBar).get());
+		addToSlot(TYPE_ButtonBar, (UnitsButtonBarPresenter) result.get(HomeUnitsProvider.ID_ButtonBar).get());
+		UnitElementListPresenter listPresenter = (UnitElementListPresenter) result.get(HomeUnitsProvider.ID_UnitList).get();
+		listPresenter.refresh(unitList);
+		setInSlot(HomePresenter.TYPE_Content, listPresenter);
+		getView().setContentVisible(true);
 	}
 
 	@Override
