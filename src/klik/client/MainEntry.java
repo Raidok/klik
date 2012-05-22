@@ -1,6 +1,7 @@
 package klik.client;
 
 import klik.client.gin.MyGinjector;
+import klik.shared.event.LoadingEvent;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.EntryPoint;
@@ -25,5 +26,6 @@ public class MainEntry implements EntryPoint, UncaughtExceptionHandler {
 	@Override
 	public void onUncaughtException(Throwable e) {
 		Log.error(e.getMessage(), e);
+		ginjector.getEventBus().fireEventFromSource(new LoadingEvent(false), this);
 	}
 }
