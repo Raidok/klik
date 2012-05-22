@@ -4,7 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import klik.server.Process;
-import klik.server.TempUnitHolder;
+import klik.server.x10.TempUnitHolder;
 import klik.shared.constants.X10.Function;
 import klik.shared.constants.X10.State;
 import klik.shared.model.UnitStatusDto;

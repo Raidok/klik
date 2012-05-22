@@ -3,7 +3,7 @@ package klik.server.handler;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import klik.server.TempUnitHolder;
+import klik.server.x10.TempUnitHolder;
 import klik.shared.rpc.RetrieveUnitStatusesAction;
 import klik.shared.rpc.RetrieveUnitStatusesResult;
 

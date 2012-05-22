@@ -1,4 +1,4 @@
-package klik.server;
+package klik.server.x10;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

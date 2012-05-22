@@ -2,7 +2,7 @@ package klik.server.handler;
 
 import javax.servlet.http.HttpServletRequest;
 
-import klik.server.TempUnitHolder;
+import klik.server.x10.TempUnitHolder;
 import klik.shared.rpc.RetrieveGreetingAction;
 import klik.shared.rpc.RetrieveGreetingResult;
 
