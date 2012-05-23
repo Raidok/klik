@@ -25,7 +25,7 @@ public class DataManager {
 			connectionSource.setTestBeforeGet(true);
 			TableUtils.createTableIfNotExists(connectionSource, X10Unit.class);
 			x10UnitDao = DaoManager.createDao(connectionSource, X10Unit.class);
-			addTestUnits();
+			//addTestUnits();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
