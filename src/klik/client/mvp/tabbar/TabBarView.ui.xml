@@ -8,7 +8,10 @@
 	ui:generateLocales='default'>
 
 	<b:NavTabs>
-		<b:NavLink disabled="true">Select zone:</b:NavLink>
+		<b:Dropdown ui:field="tabGroupSelect" text="Zones:">
+			<b:NavLink>Zones</b:NavLink>
+			<b:NavLink>Groups</b:NavLink>
+		</b:Dropdown>
 		<b:NavLink>1</b:NavLink>
 		<b:NavLink active="true">2</b:NavLink>
 	</b:NavTabs>
