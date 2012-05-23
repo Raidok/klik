@@ -3,7 +3,8 @@ package klik.server.handler;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import klik.server.x10.TempUnitHolder;
+import klik.server.data.DataManager;
+import klik.server.x10.X10Util;
 import klik.shared.rpc.RetrieveUnitStatusesAction;
 import klik.shared.rpc.RetrieveUnitStatusesResult;
 
@@ -35,7 +36,7 @@ public class RetrieveUnitStatusesHandler implements ActionHandler<RetrieveUnitSt
 
 		try {
 
-			return new RetrieveUnitStatusesResult(TempUnitHolder.getList());
+			return new RetrieveUnitStatusesResult(X10Util.createDto(DataManager.getUnits()));
 		}
 		catch (Exception cause) {
 			logger.error("Unable to send message", cause);

@@ -1,12 +1,11 @@
 package klik.server.handler;
 
+import java.util.ArrayList;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import klik.server.Process;
-import klik.server.x10.TempUnitHolder;
-import klik.shared.constants.X10.Function;
-import klik.shared.constants.X10.State;
+import klik.server.x10.X10UnitEventHandler;
 import klik.shared.model.UnitStatusDto;
 import klik.shared.rpc.UnitEventAction;
 import klik.shared.rpc.UnitEventResult;
@@ -38,53 +37,11 @@ public class UnitEventHandler implements ActionHandler<UnitEventAction, UnitEven
 			final ExecutionContext context) throws ActionException {
 		logger.debug("UnitEventHandler");
 		try {
-			String address = action.getEvent().getAddress(); // replace with id
-			logger.debug("COMMAND "+address+" "+action.getEvent().getFunction()+" "+action.getEvent().getValue());
-			UnitStatusDto unit = TempUnitHolder.getStatus(address);
-			State state = null;
-			int value = unit.getValue();
-			switch (action.getEvent().getFunction()) {
-			case ON:
-				state = State.ON;
-				value = 100;
-				break;
-			case BRIGHT:
-				/*if (unit.getValue() < 50) { // TODO should be user modifiable
-					value = 40;
-				}*/
-			case DIM:
-				state = State.DIM;
-				value += action.getEvent().getValue();
-				if (value >= 0) { // TODO should be user modifiable
-					if (value >= 100) {
-						value = 100;
-						state = State.ON;
-					}
-					break;
-				}
-			case OFF:
-			default:
-				state = State.OFF;
-				value = 0;
-			}
+			logger.debug("COMMAND "+action.getEvent().getAddress()+" "+action.getEvent().getFunction()+" "+action.getEvent().getValue());
 
-			logger.debug("processed state:"+state+" value:"+value+" diff:"+(unit.getValue() - value));
+			ArrayList<UnitStatusDto> list = X10UnitEventHandler.handleEvent(action.getEvent());
 
-			Function function = action.getEvent().getFunction();
-			int amount = 0;
-			if (state == State.ON) { // override function if jump to 0/100 occured
-				function = Function.ON;
-			} else if (state == State.OFF) {
-				function = Function.OFF;
-			} else {
-				amount = value == 0 ? 0 : Math.abs(unit.getValue() - value);
-			}
-			Process.sendCommand(function, address, amount);
-
-			unit = new UnitStatusDto(unit.getType(), address, state, unit.getName(), value);
-			TempUnitHolder.setStatus(address, unit);
-
-			return new UnitEventResult(unit);
+			return new UnitEventResult(list);
 		}
 		catch (Exception cause) {
 			logger.error("Unable to send response", cause);

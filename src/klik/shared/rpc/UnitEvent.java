@@ -1,5 +1,7 @@
 package klik.shared.rpc;
 
+import java.util.ArrayList;
+
 import klik.shared.model.UnitEventDto;
 import klik.shared.model.UnitStatusDto;
 
@@ -12,6 +14,6 @@ import com.gwtplatform.dispatch.shared.UnsecuredActionImpl;
 public class UnitEvent {
 
 	@In(1) UnitEventDto event;
-	@Out(1) UnitStatusDto status;
+	@Out(1) ArrayList<UnitStatusDto> statusList;
 
 }

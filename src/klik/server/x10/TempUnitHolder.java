@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import klik.shared.constants.X10;
 import klik.shared.model.UnitStatusDto;
 
 public class TempUnitHolder {
@@ -13,7 +12,7 @@ public class TempUnitHolder {
 
 	static {
 		unitMap = new LinkedHashMap<String, UnitStatusDto>();
-		UnitStatusDto unit = new UnitStatusDto(
+		/*UnitStatusDto unit = new UnitStatusDto(
 				X10.Type.ONOFF_LIGHT,
 				"C9",
 				X10.State.ON,
@@ -26,7 +25,7 @@ public class TempUnitHolder {
 				X10.State.ON,
 				"Wall",
 				80);
-		unitMap.put(unit.getAddress(), unit);
+		unitMap.put(unit.getAddress(), unit);*/
 	}
 
 	public static ArrayList<UnitStatusDto> getList() {

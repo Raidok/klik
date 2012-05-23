@@ -29,7 +29,8 @@ PresenterWidget<UnitElementPresenter.MyView> implements UnitElementUiHandlers {
 
 	private final CachingDispatchAsync dispatcher;
 	private UnitStatusDto status;
-	private String address; // TODO replace with id
+	private String address;
+	private int id;
 
 	@Inject
 	public UnitElementPresenter(final EventBus eventBus, final MyView view,
@@ -45,7 +46,7 @@ PresenterWidget<UnitElementPresenter.MyView> implements UnitElementUiHandlers {
 		addRegisteredHandler(UnitStatusChangeEvent.getType(), new UnitStatusChangeHandler() {
 			@Override
 			public void onUnitStatusChange(UnitStatusChangeEvent event) {
-				if (address.equals(event.getAddress())) {
+				if (id == event.getStatus().getId()) {
 					setStatus(event.getStatus());
 				}
 			}
@@ -53,9 +54,10 @@ PresenterWidget<UnitElementPresenter.MyView> implements UnitElementUiHandlers {
 	}
 
 	public void setStatus(UnitStatusDto status) {
-		if (this.status == null || !this.status.equals(status)) {
-			this.status = status;
+		if (id == 0 || !this.status.equals(status)) {
 			this.address = status.getAddress();
+			this.status = status;
+			this.id = status.getId();
 			getView().set(address, status.getName(), !status.getState().equals(State.OFF), status.getType().equals(Type.DIMMABLE_LIGHT));
 		}
 	}
@@ -91,9 +93,10 @@ PresenterWidget<UnitElementPresenter.MyView> implements UnitElementUiHandlers {
 
 			@Override
 			public void onSuccesss(UnitEventResult result) {
-				setStatus(result.getStatus());
-				GWT.log("receive:"+result.getStatus().getState()+" level:"+result.getStatus().getValue());
-				getView().setOn(result.getStatus().getValue() > 0);
+				for (UnitStatusDto status : result.getStatusList()) {
+					GWT.log(" receive:"+status.getState()+" level:"+status.getValue());
+					fireEvent(new UnitStatusChangeEvent(address, status));
+				}
 			}
 		});
 	}

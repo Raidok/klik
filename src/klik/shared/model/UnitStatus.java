@@ -8,10 +8,11 @@ import com.gwtplatform.dispatch.annotation.Order;
 @GenDto
 public class UnitStatus {
 
-	@Order(1) X10.Type type;
-	@Order(2) String address;
-	@Order(3) X10.State state;
-	@Order(4) String name;
-	@Order(5) int value;
+	@Order(1) int id;
+	@Order(3) String address;
+	@Order(5) String name;
+	@Order(2) X10.Type type;
+	@Order(4) X10.State state;
+	@Order(6) int value;
 
 }
