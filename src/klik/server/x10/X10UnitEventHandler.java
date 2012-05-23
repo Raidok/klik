@@ -60,6 +60,7 @@ public class X10UnitEventHandler {
 						unit.getValue()));
 			}
 		}
+		logger.debug("list size "+returnList.size());
 		return returnList;
 	}
 

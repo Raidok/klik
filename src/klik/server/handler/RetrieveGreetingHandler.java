@@ -3,7 +3,6 @@ package klik.server.handler;
 import javax.servlet.http.HttpServletRequest;
 
 import klik.server.data.DataManager;
-import klik.server.x10.TempUnitHolder;
 import klik.server.x10.X10Util;
 import klik.shared.rpc.RetrieveGreetingAction;
 import klik.shared.rpc.RetrieveGreetingResult;
@@ -40,11 +39,10 @@ public class RetrieveGreetingHandler implements ActionHandler<RetrieveGreetingAc
 						" Please check the settings before starting.",
 						false, X10Util.createDto(DataManager.getUnits()));
 			} else {
-				return new RetrieveGreetingResult(null, true, TempUnitHolder.getList());
+				return new RetrieveGreetingResult(null, true, X10Util.createDto(DataManager.getUnits()));
 			}
 
-		}
-		catch (Exception cause) {
+		} catch (Exception cause) {
 			logger.error("Unable to send message", cause);
 			throw new ActionException(cause);
 		}

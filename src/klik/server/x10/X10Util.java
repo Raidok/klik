@@ -9,6 +9,9 @@ import klik.shared.model.UnitStatusDto;
 public class X10Util {
 
 	public static ArrayList<UnitStatusDto> createDto(List<X10Unit> unitList) {
+		if (unitList == null) {
+			return new ArrayList<UnitStatusDto>();
+		}
 		ArrayList<UnitStatusDto> list = new ArrayList<UnitStatusDto>(unitList.size());
 		for (X10Unit unit : unitList) {
 			list.add(new UnitStatusDto(unit.getId(),
