@@ -3,6 +3,7 @@ package klik.server.data;
 import java.sql.SQLException;
 import java.util.List;
 
+import klik.server.PropertiesManager;
 import klik.shared.constants.X10.State;
 import klik.shared.constants.X10.Type;
 
@@ -18,11 +19,11 @@ public class DataManager {
 
 	static {
 		try {
-			connectionSource = new JdbcPooledConnectionSource("jdbc:sqlite::memory:");
+			connectionSource = new JdbcPooledConnectionSource(PropertiesManager.getProperty("sqlite.connectionSource"));
 			connectionSource.setMaxConnectionAgeMillis(Long.MAX_VALUE);
 			connectionSource.setCheckConnectionsEveryMillis(60 * 1000);
 			connectionSource.setTestBeforeGet(true);
-			TableUtils.createTable(connectionSource, X10Unit.class);
+			TableUtils.createTableIfNotExists(connectionSource, X10Unit.class);
 			x10UnitDao = DaoManager.createDao(connectionSource, X10Unit.class);
 			addTestUnits();
 		} catch (SQLException e) {
@@ -45,12 +46,7 @@ public class DataManager {
 	}
 
 	public static List<X10Unit> getUnits() throws SQLException {
-		try {
-			return x10UnitDao.queryForAll();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return x10UnitDao.queryForAll();
 	}
 
 	public static List<X10Unit> getUnitsWithAddress(String address) {

@@ -4,6 +4,5 @@ war/WEB-INF/deploy
 war/WEB-INF/classes
 war/klik
 war/logging*
-war/server.properties
 .settings
 .apt_generated

@@ -31,7 +31,6 @@ public class PropertiesManager {
 	public static String getProperty(String key) {
 		ensureLoaded();
 		String value = properties.getProperty(key);
-		System.out.println("requested key:"+key+" value:"+value);
 		return value;
 	}
 
