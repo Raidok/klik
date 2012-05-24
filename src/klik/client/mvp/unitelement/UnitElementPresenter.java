@@ -5,6 +5,7 @@ import klik.client.dispatch.CachingDispatchAsync;
 import klik.shared.constants.X10;
 import klik.shared.constants.X10.State;
 import klik.shared.constants.X10.Type;
+import klik.shared.event.AddEditEvent;
 import klik.shared.event.UnitStatusChangeEvent;
 import klik.shared.event.UnitStatusChangeEvent.UnitStatusChangeHandler;
 import klik.shared.model.UnitEventDto;
@@ -99,5 +100,10 @@ PresenterWidget<UnitElementPresenter.MyView> implements UnitElementUiHandlers {
 				}
 			}
 		});
+	}
+
+	@Override
+	public void edit() {
+		fireEvent(new AddEditEvent(status));
 	}
 }

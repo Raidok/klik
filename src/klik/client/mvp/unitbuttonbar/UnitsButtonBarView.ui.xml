@@ -23,7 +23,7 @@
 			<b:Button icon="TH">Show tiled</b:Button>
 		</b:ButtonGroup>
 		<b:ButtonGroup addStyleNames="pull-right">
-			<b:Button icon="PLUS_SIGN">Add new unit</b:Button>
+			<b:Button ui:field="addNewUnitBtn" icon="PLUS_SIGN">Add new unit</b:Button>
 		</b:ButtonGroup>
 	</b:ButtonToolbar>
 </ui:UiBinder>

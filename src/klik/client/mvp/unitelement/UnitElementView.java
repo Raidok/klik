@@ -83,6 +83,13 @@ UnitElementPresenter.MyView {
 		}
 	}
 
+	@UiHandler("editBtn")
+	void editClick(ClickEvent e) {
+		if (getUiHandlers() != null) {
+			getUiHandlers().edit();
+		}
+	}
+
 	@Override
 	public void setOn(boolean isOn) {
 		if (isOn) {

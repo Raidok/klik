@@ -2,7 +2,9 @@ package klik.client.mvp;
 
 import klik.client.MyCallback;
 import klik.client.dispatch.CachingDispatchAsync;
+import klik.client.mvp.addedit.AddEditWidgetPresenter;
 import klik.client.mvp.setup.SetupWidgetPresenter;
+import klik.shared.event.AddEditEvent;
 import klik.shared.event.AlertEvent;
 import klik.shared.event.AlertEventHandler;
 import klik.shared.event.LoadingEvent;
@@ -26,7 +28,6 @@ import com.gwtplatform.mvp.client.proxy.AsyncCallStartEvent;
 import com.gwtplatform.mvp.client.proxy.AsyncCallStartHandler;
 import com.gwtplatform.mvp.client.proxy.AsyncCallSucceedEvent;
 import com.gwtplatform.mvp.client.proxy.AsyncCallSucceedHandler;
-import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
@@ -50,17 +51,17 @@ implements LayoutUiHandlers {
 
 	private final CachingDispatchAsync dispatcher;
 	private final AsyncProvider<SetupWidgetPresenter> setupDialogProvider;
-	private final PlaceManager placeManager;
+	private final AsyncProvider<AddEditWidgetPresenter> addEditDialogProvider;
 
 	@Inject
 	public LayoutPresenter(final EventBus eventBus, final MyView view,
-			final MyProxy proxy, CachingDispatchAsync dispatcher,
-			AsyncProvider<SetupWidgetPresenter> setupDialogProvider,
-			PlaceManager placeManager) {
+			final MyProxy proxy, final CachingDispatchAsync dispatcher,
+			final AsyncProvider<SetupWidgetPresenter> setupDialogProvider,
+			final AsyncProvider<AddEditWidgetPresenter> addEditDialogProvider) {
 		super(eventBus, view, proxy);
 		this.dispatcher = dispatcher;
 		this.setupDialogProvider = setupDialogProvider;
-		this.placeManager = placeManager;
+		this.addEditDialogProvider = addEditDialogProvider;
 		getView().setUiHandlers(this);
 	}
 
@@ -126,6 +127,13 @@ implements LayoutUiHandlers {
 				}
 			}
 		});
+
+		addRegisteredHandler(AddEditEvent.getType(), new AddEditEvent.AddEditHandler() {
+			@Override
+			public void onAddEdit(AddEditEvent event) {
+				onAddEditEvent(event);
+			}
+		});
 	}
 
 	@Override
@@ -140,6 +148,17 @@ implements LayoutUiHandlers {
 			public void onSuccesss(SetupWidgetPresenter result) {
 				RevealRootPopupContentEvent.fire(LayoutPresenter.this, result);
 				result.getView().show(); // without this the popup won't open the second time
+			}
+		});
+	}
+
+	private void onAddEditEvent(final AddEditEvent event) {
+		addEditDialogProvider.get(new MyCallback<AddEditWidgetPresenter>(this) {
+			@Override
+			public void onSuccesss(AddEditWidgetPresenter result) {
+				result.setUnit(event.getStatus());
+				RevealRootPopupContentEvent.fire(LayoutPresenter.this, result);
+				result.getView().show();
 			}
 		});
 	}

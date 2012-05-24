@@ -4,6 +4,8 @@ import klik.client.MyPlaceManager;
 import klik.client.dispatch.CachingDispatchAsync;
 import klik.client.mvp.LayoutPresenter;
 import klik.client.mvp.LayoutView;
+import klik.client.mvp.addedit.AddEditWidgetPresenter;
+import klik.client.mvp.addedit.AddEditWidgetView;
 import klik.client.mvp.admin.AdminPresenter;
 import klik.client.mvp.admin.AdminView;
 import klik.client.mvp.error.ErrorPresenter;
@@ -56,6 +58,8 @@ public class MyClientModule extends AbstractPresenterModule {
 				UnitElementListView.class);
 		bindPresenterWidget(UnitElementPresenter.class,
 				UnitElementPresenter.MyView.class, UnitElementView.class);
+		bindSingletonPresenterWidget(AddEditWidgetPresenter.class,
+				AddEditWidgetPresenter.MyView.class, AddEditWidgetView.class);
 	}
 
 	@Inject

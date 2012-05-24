@@ -1,6 +1,8 @@
 package klik.client.mvp.unitbuttonbar;
 
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
@@ -21,5 +23,12 @@ UnitsButtonBarPresenter.MyView {
 	@Override
 	public Widget asWidget() {
 		return widget;
+	}
+
+	@UiHandler("addNewUnitBtn")
+	void onAddNewUnitBtnClick(ClickEvent event) {
+		if (getUiHandlers() != null) {
+			getUiHandlers().newUnit();
+		}
 	}
 }

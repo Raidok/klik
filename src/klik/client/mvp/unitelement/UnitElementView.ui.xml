@@ -41,7 +41,7 @@
 				</b:ButtonGroup>
 				<b:ButtonGroup addStyleNames="pull-right">
 					<b:Button icon="TRASH" size="LARGE" />
-					<b:Button icon="PENCIL" size="LARGE" />
+					<b:Button ui:field="editBtn" icon="PENCIL" size="LARGE" />
 				</b:ButtonGroup>
 			</b:ButtonToolbar>
 		</g:HTMLPanel>

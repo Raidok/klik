@@ -7,4 +7,5 @@ public interface UnitElementUiHandlers extends UiHandlers {
 	void setOn(boolean isOn);
 	void bright();
 	void dim();
+	void edit();
 }

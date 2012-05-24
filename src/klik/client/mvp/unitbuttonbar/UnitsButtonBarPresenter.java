@@ -1,5 +1,7 @@
 package klik.client.mvp.unitbuttonbar;
 
+import klik.shared.event.AddEditEvent;
+
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
@@ -21,5 +23,10 @@ PresenterWidget<UnitsButtonBarPresenter.MyView> implements UnitsButtonBarUiHandl
 	@Override
 	protected void onBind() {
 		super.onBind();
+	}
+
+	@Override
+	public void newUnit() {
+		fireEvent(new AddEditEvent(null));
 	}
 }
