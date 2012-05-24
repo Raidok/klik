@@ -44,9 +44,9 @@ public class MyClientModule extends AbstractPresenterModule {
 				AdminView.class, AdminPresenter.MyProxy.class);
 		bindPresenter(ErrorPresenter.class, ErrorPresenter.MyView.class,
 				ErrorView.class, ErrorPresenter.MyProxy.class);
+
 		bindSingletonPresenterWidget(SetupWidgetPresenter.class, SetupWidgetPresenter.MyView.class,
 				SetupWidgetView.class);
-
 		bindSingletonPresenterWidget(TabBarPresenter.class,
 				TabBarPresenter.MyView.class, TabBarView.class);
 		bindSingletonPresenterWidget(UnitsButtonBarPresenter.class,

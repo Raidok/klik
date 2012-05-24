@@ -11,13 +11,7 @@
 			padding: 4px;
 		}
 	</ui:style>
-	<g:PopupPanel>
-		<g:HTMLPanel styleName="modal">
-			<g:HTMLPanel styleName="modal-header">
-				<b:Close ui:field="close"></b:Close>
-				<b:Heading size="3">Setup</b:Heading>
-			</g:HTMLPanel>
-			<g:HTMLPanel styleName="modal-body">
+	<b:Modal ui:field="modal" title="Setup">
 				<b:Form type="HORIZONTAL">
 					<b:Fieldset>
 						<b:ControlGroup>
@@ -38,12 +32,10 @@
 						</b:Controls>
 					</b:Fieldset>
 				</b:Form>
-			</g:HTMLPanel>
 			<b:ModalFooter>
 				<b:Button ui:field="shutDownBtn" icon="OFF" iconColor="WHITE" type="WARNING">Shut Down</b:Button>
 				<b:Button ui:field="restartBtn" icon="REPEAT" iconColor="WHITE" type="WARNING">Restart</b:Button>
 				<b:Button ui:field="saveBtn" icon="OK" iconColor="WHITE" type="PRIMARY">Save</b:Button>
 			</b:ModalFooter>
-		</g:HTMLPanel>
-	</g:PopupPanel>
+	</b:Modal>
 </ui:UiBinder>

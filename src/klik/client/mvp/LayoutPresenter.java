@@ -26,6 +26,7 @@ import com.gwtplatform.mvp.client.proxy.AsyncCallStartEvent;
 import com.gwtplatform.mvp.client.proxy.AsyncCallStartHandler;
 import com.gwtplatform.mvp.client.proxy.AsyncCallSucceedEvent;
 import com.gwtplatform.mvp.client.proxy.AsyncCallSucceedHandler;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
@@ -49,14 +50,17 @@ implements LayoutUiHandlers {
 
 	private final CachingDispatchAsync dispatcher;
 	private final AsyncProvider<SetupWidgetPresenter> setupDialogProvider;
+	private final PlaceManager placeManager;
 
 	@Inject
 	public LayoutPresenter(final EventBus eventBus, final MyView view,
 			final MyProxy proxy, CachingDispatchAsync dispatcher,
-			AsyncProvider<SetupWidgetPresenter> setupDialogProvider) {
+			AsyncProvider<SetupWidgetPresenter> setupDialogProvider,
+			PlaceManager placeManager) {
 		super(eventBus, view, proxy);
 		this.dispatcher = dispatcher;
 		this.setupDialogProvider = setupDialogProvider;
+		this.placeManager = placeManager;
 		getView().setUiHandlers(this);
 	}
 
@@ -135,6 +139,7 @@ implements LayoutUiHandlers {
 			@Override
 			public void onSuccesss(SetupWidgetPresenter result) {
 				RevealRootPopupContentEvent.fire(LayoutPresenter.this, result);
+				result.getView().show(); // without this the popup won't open the second time
 			}
 		});
 	}

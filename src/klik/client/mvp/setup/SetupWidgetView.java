@@ -5,16 +5,17 @@ import java.util.Map;
 
 import com.github.gwtbootstrap.client.ui.Button;
 import com.github.gwtbootstrap.client.ui.ControlGroup;
+import com.github.gwtbootstrap.client.ui.Modal;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
+import com.gwtplatform.mvp.client.PopupViewCloseHandler;
 import com.gwtplatform.mvp.client.PopupViewWithUiHandlers;
 
 public class SetupWidgetView extends PopupViewWithUiHandlers<SetupWidgetUiHandlers>
@@ -24,7 +25,7 @@ implements SetupWidgetPresenter.MyView {
 	}
 
 	private final Widget widget;
-	@UiField Anchor close;
+	@UiField(provided = true) Modal modal;
 	@UiField ControlGroup activeGroup;
 	@UiField Label activePortLabel;
 	@UiField Label statusLabel;
@@ -36,6 +37,7 @@ implements SetupWidgetPresenter.MyView {
 	@Inject
 	public SetupWidgetView(final EventBus eventBus, final Binder binder) {
 		super(eventBus);
+		setUpDialog();
 		widget = binder.createAndBindUi(this);
 	}
 
@@ -44,11 +46,43 @@ implements SetupWidgetPresenter.MyView {
 		return widget;
 	}
 
-	@UiHandler("close")
-	public void onCloseClick(ClickEvent e) {
+	private void setUpDialog() {
+		modal = new Modal() {
+			@Override
+			protected void onUnload() {
+				SetupWidgetView.this.hide();
+			}
+		};
+	}
+
+	@Override
+	public void center() {
+		modal.show();
+	}
+
+	@Override
+	public void hide() {
+		modal.hide();
 		if (getUiHandlers() != null) {
 			getUiHandlers().onClose();
 		}
+	}
+
+	@Override
+	public void setAutoHideOnNavigationEventEnabled(boolean autoHide) {
+	}
+
+	@Override
+	public void setCloseHandler(PopupViewCloseHandler popupViewCloseHandler) {
+	}
+
+	@Override
+	public void setPosition(int left, int top) {
+	}
+
+	@Override
+	public void show() {
+		modal.show();
 	}
 
 	@UiHandler("shutDownBtn")
