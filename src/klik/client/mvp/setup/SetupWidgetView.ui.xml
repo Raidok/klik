@@ -12,30 +12,30 @@
 		}
 	</ui:style>
 	<b:Modal ui:field="modal" title="Setup">
-				<b:Form type="HORIZONTAL">
-					<b:Fieldset>
-						<b:ControlGroup>
-							<b:ControlLabel>Status</b:ControlLabel>
-							<b:Controls>
-								<g:Label ui:field="statusLabel" addStyleNames="{style.label}" />
-							</b:Controls>
-						</b:ControlGroup>
-						<b:ControlGroup ui:field="activeGroup" visible="false">
-							<b:ControlLabel>Current COM-port</b:ControlLabel>
-							<b:Controls>
-								<g:Label ui:field="activePortLabel" addStyleNames="{style.label}" />
-							</b:Controls>
-						</b:ControlGroup>
-						<b:ControlLabel>Select COM-port</b:ControlLabel>
-						<b:Controls>
-							<g:ListBox ui:field="comPortListBox"></g:ListBox>
-						</b:Controls>
-					</b:Fieldset>
-				</b:Form>
-			<b:ModalFooter>
-				<b:Button ui:field="shutDownBtn" icon="OFF" iconColor="WHITE" type="WARNING">Shut Down</b:Button>
-				<b:Button ui:field="restartBtn" icon="REPEAT" iconColor="WHITE" type="WARNING">Restart</b:Button>
-				<b:Button ui:field="saveBtn" icon="OK" iconColor="WHITE" type="PRIMARY">Save</b:Button>
-			</b:ModalFooter>
+		<b:Form type="HORIZONTAL">
+			<b:Fieldset>
+				<b:ControlGroup>
+					<b:ControlLabel>Status</b:ControlLabel>
+					<b:Controls>
+						<g:Label ui:field="statusLabel" addStyleNames="{style.label}" />
+					</b:Controls>
+				</b:ControlGroup>
+				<b:ControlGroup ui:field="activeGroup" visible="false">
+					<b:ControlLabel>Current COM-port</b:ControlLabel>
+					<b:Controls>
+						<g:Label ui:field="activePortLabel" addStyleNames="{style.label}" />
+					</b:Controls>
+				</b:ControlGroup>
+				<b:ControlLabel>Select COM-port</b:ControlLabel>
+				<b:Controls>
+					<g:ListBox ui:field="comPortListBox"></g:ListBox>
+				</b:Controls>
+			</b:Fieldset>
+		</b:Form>
+		<b:ModalFooter>
+			<b:Button ui:field="shutDownBtn" icon="OFF" iconColor="WHITE" type="WARNING">Shut Down</b:Button>
+			<b:Button ui:field="restartBtn" icon="REPEAT" iconColor="WHITE" type="WARNING">Restart</b:Button>
+			<b:Button ui:field="saveBtn" icon="OK" iconColor="WHITE" type="PRIMARY">Save</b:Button>
+		</b:ModalFooter>
 	</b:Modal>
 </ui:UiBinder>
