@@ -29,6 +29,7 @@
 
 	<target name="compile" depends="prepare">
 		<javac srcdir="${src.dir}" destdir="${build.dir}">
+			<compilerarg value="-proc:only" />
 			<compilerarg value="-s" />
 			<compilerarg path=".apt_generated" />
 			<classpath refid="project.classpath"/>
